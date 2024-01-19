@@ -1,0 +1,17 @@
+version: '3.8'  # Specify a compatible Docker Compose file version
+
+services:
+  db:
+    image: postgres:15-alpine  # Use a specific PostgreSQL version
+    restart: always  # Ensure automatic restart if the container stops
+    environment:
+      POSTGRES_USER: koffeeaddicted  # Set the database user
+      POSTGRES_PASSWORD: koffeeaddicted  # Set the database password
+      POSTGRES_DB: koffeeaddicted  # Set the default database name
+    ports:
+      - "5432:5432"  # Map the host port 5432 to the container port 5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data  # Persist database data
+
+volumes:
+  postgres-data:  # Define a named volume to store database data

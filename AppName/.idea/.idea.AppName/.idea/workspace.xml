@@ -4,30 +4,15 @@
     <projectFile profileName="http">AppName.csproj</projectFile>
     <projectFile profileName="https">AppName.csproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="9454a765-a1da-47eb-80f8-8ce12deb00fa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Domain/Entities/AuditEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Domain/Entities/Base/IAuditEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Domain/Entities/Base/IDeleteEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Domain/Entities/Base/IEntityBase.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Domain/Entities/DeleteEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Domain/Entities/EntityBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AppName/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppName.http" beforeDir="false" afterPath="$PROJECT_DIR$/AppName.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Presentation/Controllers/ProductController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppName.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AppName.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppName.sln" beforeDir="false" afterPath="$PROJECT_DIR$/AppName.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Contracts/Class1.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Contracts/Contracts.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Domain/Class1.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Domain/Domain.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Services.Abstractions/Class1.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Services.Abstractions/Services.Abstractions.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Services/Class1.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Services/Services.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Class1.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Persistence.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Presentation/Class1.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Presentation/Presentation.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +94,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1705929403100</updated>
-      <workItem from="1705929404246" duration="453000" />
+      <workItem from="1705929404246" duration="983000" />
     </task>
     <servers />
   </component>

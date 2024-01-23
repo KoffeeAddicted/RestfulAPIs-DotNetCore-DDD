@@ -3,11 +3,11 @@ namespace Domain.Entities.Base;
 public interface IAuditEntity   
 {   
     DateTime CreatedDateTime { get; set; }   
-    string CreatedByName { get; set; }  
-    int CreatedById { get; set; }
+    String CreatedByName { get; set; }  
+    Int64 CreatedById { get; set; }
     DateTime? UpdatedTime { get; set; }   
-    string? UpdatedByName { get; set; }   
-    int? UpdateById { get; set; }
+    String? UpdatedByName { get; set; }   
+    Int64? UpdateById { get; set; }
 }   
 public interface IAuditEntity<TKey> : IAuditEntity, IDeleteEntity<TKey>   
 {   

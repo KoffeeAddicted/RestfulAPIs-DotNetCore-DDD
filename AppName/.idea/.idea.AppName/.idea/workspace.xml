@@ -9,10 +9,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9454a765-a1da-47eb-80f8-8ce12deb00fa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Presentation/Controllers/ProductController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppName.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AppName.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppName.sln" beforeDir="false" afterPath="$PROJECT_DIR$/AppName.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Domain/Entities/Product.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Domain/Entities/ProductType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Domain/Exceptions/Base/BadRequestException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Domain/Exceptions/Base/NotFoundException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Domain/Exceptions/ProductDoesNotBelongToProductYpeException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Domain/Exceptions/ProductNotFound.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Domain/Exceptions/ProductTypeNotFOund.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Domain/RepositoryInterfaces/IProductRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Domain/RepositoryInterfaces/IProductTypeInterface.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AppName/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AppName/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Domain/Entities/AuditEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Domain/Entities/AuditEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Domain/Entities/Base/IAuditEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Domain/Entities/Base/IAuditEntity.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,9 +30,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2bJNpGv6MmvE9RJiGTcN6ecDnuw" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -44,6 +52,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.updates",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -94,7 +103,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1705929403100</updated>
-      <workItem from="1705929404246" duration="983000" />
+      <workItem from="1705929404246" duration="1341000" />
+      <workItem from="1705973620224" duration="3037000" />
     </task>
     <servers />
   </component>
@@ -103,5 +113,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

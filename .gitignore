@@ -400,4 +400,5 @@ FodyWeavers.xsd
 Persistence/Migrations/
 
 *.DS_Store
-AudioApp/.idea
+AudioApp/.idea/
+AudioApp/appsettings.UAT.json

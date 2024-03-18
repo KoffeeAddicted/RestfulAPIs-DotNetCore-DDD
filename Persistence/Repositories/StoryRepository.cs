@@ -24,6 +24,37 @@ public class StoryRepository : IStoryRepository
             .Where(s => !s.IsDeleted)
             .ToListAsync();
     }
+    
+    public async Task<IEnumerable<Story>> GetByFilter(String name, Int64 storyCategoryId, Boolean isBook, Boolean isStory)
+    {
+        IQueryable<Story> query = _genericRepository.Table
+            .Include(s => s.Episodes.Where(e => !e.IsDeleted))
+            .ThenInclude(e => e.Audio)
+            .Include(s => s.StoryCategory)
+            .Where(s => !s.IsDeleted
+                        && s.IsBook == isBook
+                        && s.IsStory == isStory);
+
+        // Apply case-insensitive search filter only if searchName is not null or empty
+        if (!string.IsNullOrEmpty(name))
+        {
+            // Convert searchName to lowercase for case-insensitive comparison
+            string lowercaseName = name.ToLower();
+            query = query.Where(s => s.Name.ToLower().Contains(lowercaseName)
+                                     || s.Description.ToLower().Contains(lowercaseName)
+                                     || s.Voice.ToLower().Contains(lowercaseName)
+                                     || s.Author.ToLower().Contains(lowercaseName));
+        }
+
+        if (storyCategoryId != 0)
+        {
+            query = query.Where(s => s.StoryCategoryId == storyCategoryId);
+        }
+
+        return await query.ToListAsync();
+    }
+
+
 
     public async Task<Story> GetByIdAsync(Int64 id)
     {

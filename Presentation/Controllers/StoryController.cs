@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Contracts;
 using Contracts.DTOs.Stories;
 using Domain.Exceptions;
@@ -20,10 +21,10 @@ public class StoryController : ControllerBase
     
     [HttpGet]
     [Route(nameof(GetStories))]
-    [Produces(typeof(ApiResponse<IEnumerable<StoryResponseDTO>>))]
-    public async Task<IActionResult> GetStories([FromQuery] ListFilter filter)
+    [Produces(typeof(ApiResponse<IEnumerable<StoriesFilteredResponse>>))]
+    public async Task<IActionResult> GetStories([FromQuery] ListFilter filter, [FromQuery][Required] Int64 storyCategoryId, [FromQuery][Required] Boolean isBook, [FromQuery][Required] Boolean isStory)
     {
-        StoriesFilteredResponse storyResponse = await _serviceManager.StoryService.GetStoriesAsync(filter);
+        StoriesFilteredResponse storyResponse = await _serviceManager.StoryService.GetStoriesAsync(filter, storyCategoryId, isStory, isBook);
 
         ApiResponse<StoriesFilteredResponse> response = new ApiResponse<StoriesFilteredResponse>()
         {
@@ -41,7 +42,11 @@ public class StoryController : ControllerBase
     [Produces(typeof(ApiResponse<IEnumerable<StoryResponseDTO>>))]
     public async Task<IActionResult> CreateNewStory([FromBody] StoryCreateRequest request)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        StoryResponseDTO responseDto = await _serviceManager.StoryService.CreateStoryAsync(request);
         
-        return Ok();
+        return Ok(responseDto);
     }
 }

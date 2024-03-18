@@ -5,6 +5,6 @@ namespace Services.Absractions;
 
 public interface IStoryService
 {
-    Task<StoriesFilteredResponse> GetStoriesAsync(ListFilter filter);
-    // Task<StoryResponseDTO> CreateStoryAsync();
+    Task<StoriesFilteredResponse> GetStoriesAsync(ListFilter filter, Int64 storyCategoryId, Boolean isStory, Boolean isBook);
+    Task<StoryResponseDTO> CreateStoryAsync(StoryCreateRequest storyCreateRequest);
 }

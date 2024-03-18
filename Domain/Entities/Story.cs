@@ -7,8 +7,18 @@ public class Story : AuditEntity<Int64>
     public String Name { get; set; }
     [Range(0, 10)]
     public Double Rating { get; set; }
-    public String Description { get; set; }
-    public String Thumbnail { get; set; }
-    public String SourceDescription { get; set; }
+    public String? Description { get; set; }
+    public String? Thumbnail { get; set; }
+    public String? SourceDescription { get; set; }
+    public String? Author { get; set; }
+    public String? Voice { get; set; }
+    
+    public Boolean IsBook { get; set; }
+    
+    public Boolean IsStory { get; set; }
+    
+    public Int64 StoryCategoryId { get; set; }
     public virtual ICollection<Episode> Episodes { get; set; } = new HashSet<Episode>();
+    
+    public StoryCategory StoryCategory { get; set; }
 }

@@ -19,6 +19,9 @@ public class Story : AuditEntity<Int64>
     
     public Int64 StoryCategoryId { get; set; }
     public virtual ICollection<Episode> Episodes { get; set; } = new HashSet<Episode>();
-    
+
+    public virtual ICollection<Wishlist> Wishlists { get; set; }
+
+
     public StoryCategory StoryCategory { get; set; }
 }

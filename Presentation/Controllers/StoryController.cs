@@ -24,7 +24,7 @@ public class StoryController : ControllerBase
     [Produces(typeof(ApiResponse<IEnumerable<StoriesFilteredResponse>>))]
     public async Task<IActionResult> GetStories([FromQuery] ListFilter filter, [FromQuery][Required] Int64 storyCategoryId, [FromQuery][Required] Boolean isBook, [FromQuery][Required] Boolean isStory)
     {
-        StoriesFilteredResponse storyResponse = await _serviceManager.StoryService.GetStoriesAsync(filter, storyCategoryId, isStory, isBook);
+        StoriesFilteredResponse storyResponse = await _serviceManager.StoryService.GetStoriesAsync(filter, storyCategoryId, true, isBook);
 
         ApiResponse<StoriesFilteredResponse> response = new ApiResponse<StoriesFilteredResponse>()
         {

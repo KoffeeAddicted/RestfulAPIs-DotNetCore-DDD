@@ -1,11 +1,11 @@
-using Domain;
+﻿using Domain;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.Mapping;
 
-public class AudioMapping : EntityTypeConfiguration<Audio>
+public class UserMapping : EntityTypeConfiguration<User>
 {
     #region Configures
 
@@ -14,41 +14,42 @@ public class AudioMapping : EntityTypeConfiguration<Audio>
     /// </summary>
     /// <param name="builder">The builder to be used to configure the entity</param>
     /// <param name="entity"></param>
-    public override void Configure(EntityTypeBuilder<Audio> entity)
+    public override void Configure(EntityTypeBuilder<User> entity)
     {
 
-        entity.ToTable(nameof(Audio), "public");
+        entity.ToTable(nameof(User), "public");
 
         entity.HasKey(a => a.Id);
 
         entity.Property(a => a.Id)
             .ValueGeneratedOnAdd();
 
-        entity.Property(a => a.Link).IsRequired();
+        entity.Property(a => a.ProviderToken);
+
+        entity.Property(a => a.Email);
+
+        entity.Property(a => a.Password);
+
+        entity.Property(a => a.IsAdmin);
+
+        entity.Property(a => a.ProfilePicture);
 
         entity.Property(_ => _.IsDeleted).IsRequired().HasDefaultValue(false);
 
-        entity.HasOne(a => a.Episode)
-            .WithOne(e => e.Audio)
-            .HasForeignKey<Audio>(a => a.EpisodeId);
-        
+
+        entity.HasMany(s => s.Wishlists).WithMany( s => s.ProviderToken).HasForeignKey(a => a.);
+
         #endregion
-        
+
         #region Seeding data
         entity.HasData(
-            new List<Audio>()
+            new List<User>()
             {
-                new Audio()
+                new User()
                 {
                     Id = 1,
-                    Link = "123",
-                    EpisodeId = 1
-                },
-                new Audio()
-                {
-                    Id = 2,
-                    Link = "456",
-                    EpisodeId = 2
+                    ProviderToken = "123",
+                    ProfilePicture = "picture.com"
                 },
             }
         );

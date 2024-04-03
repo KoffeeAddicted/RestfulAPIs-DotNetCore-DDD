@@ -6,7 +6,6 @@ namespace Persistence.Mapping;
 
 public class StoryMapping : EntityTypeConfiguration<Story>
 {
-    #region Configures
 
     /// <summary>
     /// Configures the entity
@@ -15,6 +14,8 @@ public class StoryMapping : EntityTypeConfiguration<Story>
     /// <param name="entity"></param>
     public override void Configure(EntityTypeBuilder<Story> entity)
     {
+        #region Configures
+
         entity.ToTable(nameof(Story), "public");
 
         entity.HasKey(s => s.Id);
@@ -55,6 +56,10 @@ public class StoryMapping : EntityTypeConfiguration<Story>
         entity.HasOne(s => s.StoryCategory)
             .WithMany(sc => sc.Stories)
             .HasForeignKey(s => s.StoryCategoryId);
+
+        entity.HasMany(s => s.StoryTags)
+            .WithOne(st => st.Story)
+            .HasForeignKey(st => st.StoryId);
         #endregion
         
         #region Seeding data

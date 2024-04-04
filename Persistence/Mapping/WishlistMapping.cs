@@ -17,19 +17,15 @@ public class WishlistMapping : EntityTypeConfiguration<Wishlist>
     {
         entity.ToTable(nameof(Wishlist), "public");
 
-        entity.HasKey(s => s.Id);
+        entity.HasKey(st => new { st.StoryId, st.ProviderToken });
 
-        entity.Property(s => s.Id)
-            .ValueGeneratedOnAdd();
+        entity.HasOne(st => st.User)
+            .WithMany(t => t.Wishlists)
+            .HasForeignKey(st => st.ProviderToken);
 
-       
-
-        entity.HasMany(sc => sc.User).(e => e.)
-            .HasForeignKey(e => e.StoryId);
-
-        entity.HasOne(s => s.StoryCategory)
-            .WithMany(sc => sc.Stories)
-            .HasForeignKey(s => s.StoryCategoryId);
+        entity.HasOne(st => st.Story)
+            .WithMany(s => s.Wishlists)
+            .HasForeignKey(st => st.StoryId);
         #endregion
 
         #region Seeding data

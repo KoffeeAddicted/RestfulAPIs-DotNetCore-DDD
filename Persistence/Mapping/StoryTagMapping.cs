@@ -15,7 +15,7 @@ public class StoryTagMapping : EntityTypeConfiguration<StoryTag>
     {
         #region Configures
 
-        entity.ToTable(nameof(Tag), "public");
+        entity.ToTable(nameof(StoryTag), "public");
 
         entity.HasKey(st => new {st.StoryId, st.TagId});
 

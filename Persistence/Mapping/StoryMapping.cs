@@ -60,8 +60,12 @@ public class StoryMapping : EntityTypeConfiguration<Story>
         entity.HasMany(s => s.StoryTags)
             .WithOne(st => st.Story)
             .HasForeignKey(st => st.StoryId);
+
+        entity.HasMany(s => s.Wishlists)
+            .WithOne(st => st.Story)
+            .HasForeignKey(st => st.StoryId);
         #endregion
-        
+
         #region Seeding data
         entity.HasData(
             new Story()

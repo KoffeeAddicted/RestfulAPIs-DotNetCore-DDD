@@ -37,7 +37,9 @@ public class UserMapping : EntityTypeConfiguration<User>
         entity.Property(_ => _.IsDeleted).IsRequired().HasDefaultValue(false);
 
 
-        entity.HasMany(s => s.Wishlists).WithMany( s => s.ProviderToken).HasForeignKey(a => a.);
+        entity.HasMany(s => s.Wishlists)
+            .WithOne(st => st.User)
+            .HasForeignKey(st => st.ProviderToken);
 
         #endregion
 

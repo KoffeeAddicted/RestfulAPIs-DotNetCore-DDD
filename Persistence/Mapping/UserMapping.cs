@@ -19,7 +19,7 @@ public class UserMapping : EntityTypeConfiguration<User>
 
         entity.ToTable(nameof(User), "public");
 
-        entity.HasKey(a => a.Id);
+        entity.HasKey(st =>  st.ProviderToken);
 
         entity.Property(a => a.Id)
             .ValueGeneratedOnAdd();

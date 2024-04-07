@@ -1,5 +1,6 @@
 using AutoMapper;
 using Contracts.DTOs.Stories;
+using Contracts.DTOs.Users;
 using Domain;
 using Domain.Entities;
 using Services.DTOs.Episodes;
@@ -29,6 +30,13 @@ public class MappingProfile : Profile
         #region StoryCategory
 
         CreateMap<StoryCategory, StoryCategoryResponseDTO>();
+
+        #endregion
+
+        #region User
+
+        CreateMap<UserCreateCustomerAuthen, User>();
+        CreateMap<User, UserResponseDTO>();
 
         #endregion
     }

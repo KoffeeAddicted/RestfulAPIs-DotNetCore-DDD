@@ -6,4 +6,5 @@ public interface IRepositoryManager
     IStoryCategoryRepository StoryCategoryRepository { get; }
 
     IUserRepository UserRepository { get; }
+    IWishlistRepository WishlistRepository { get; }
 }

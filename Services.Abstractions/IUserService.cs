@@ -11,6 +11,8 @@ namespace Services.Absractions
 {
     public interface IUserService
     {
+
+        Task<UserResponseDTO> GetUserAsync(String ProviderToken);
         Task<UserResponseDTO> CreateUserAsync(UserCreateCustomerAuthen userCreateCustomerAuthen);
     }
 }

@@ -14,6 +14,12 @@ public class UserRepository : IUserRepository
         _genericRepository = genericRepository;
     }
 
+    public async Task<User> GetUser(String ProviderToken)
+    {
+        return await _genericRepository.Table
+            .FirstOrDefaultAsync(s => s.ProviderToken == ProviderToken);
+    }
+
     public void Insert(User user)
     {
         _genericRepository.Insert(user);

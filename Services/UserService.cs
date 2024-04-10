@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using Services.Absractions;
 using Services.DbEnum;
 using Services.DTOs.Episodes;
+using Services.DTOs.StoriyCategories;
 
 namespace Services
 {
@@ -35,7 +36,25 @@ namespace Services
 
             User user = _mapper.Map<UserCreateCustomerAuthen, User>(userCreateCustomerAuthen);
 
-            _repositoryManager.UserRepository.Insert(user);
+            User existUser = await _repositoryManager.UserRepository.GetUser(user.ProviderToken);
+
+            if (existUser != null)
+            {
+              _repositoryManager.UserRepository.Update(user);
+            }
+            else
+            {
+              _repositoryManager.UserRepository.Insert(user);
+            }
+
+            UserResponseDTO response = _mapper.Map<User, UserResponseDTO>(user);
+
+            return response;
+        }
+
+        public async Task<UserResponseDTO> GetUserAsync(String ProviderToken)
+        {
+            User user = await _repositoryManager.UserRepository.GetUser(ProviderToken);
 
             UserResponseDTO response = _mapper.Map<User, UserResponseDTO>(user);
 

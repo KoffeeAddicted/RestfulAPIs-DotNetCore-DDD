@@ -45,16 +45,16 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("GetUser")]
-    [Produces(typeof(ApiResponse<IEnumerable<UserResponseDTO>>))]
+    [Produces(typeof(ApiResponse<UserResponseDTO?>))]
     public async Task<IActionResult> GetUser([FromQuery] String ProviderToken)
 
 
         
     {
-        UserResponseDTO userResponse = await _serviceManager.UserService.GetUserAsync(ProviderToken);
+        UserResponseDTO? userResponse = await _serviceManager.UserService.GetUserAsync(ProviderToken);
 
 
-        ApiResponse<UserResponseDTO> response = new ApiResponse<UserResponseDTO>()
+        ApiResponse<UserResponseDTO?> response = new()
         {
             Success = true,
             StatusCode = StatusCodes.Status200OK,

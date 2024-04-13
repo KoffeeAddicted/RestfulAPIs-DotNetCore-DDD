@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Contracts.DTOs.Users;
-using Contracts;
+﻿using Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Absractions;
@@ -14,6 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class WishlistController  : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
@@ -60,6 +56,45 @@ namespace Presentation.Controllers
                 Data = userWishList
             };
 
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("GetStoryDetailByWishlist")]
+        [Produces(typeof(ApiResponse<WishlistResponseDTO>))]
+        public async Task<IActionResult> GetStory([FromQuery] String ProviderToken, Int64 StoryId)
+        {
+            WishlistResponseDTO? userStory = await _serviceManager.WishlistService.GetStoryByWishlist(ProviderToken, StoryId);
+
+            ApiResponse<WishlistResponseDTO?> response = new ApiResponse<WishlistResponseDTO?>()
+            {
+                Success = true,
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Success",
+                Data = userStory
+            };
+
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("DeleteStoryWishlist")]
+        [Produces(typeof(ApiResponse<IEnumerable<WishlistResponseDTO>>))]
+        public async Task<IActionResult> DeleteStoryWishlist([FromBody] StoryUserWishlistCreate request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            WishlistResponseDTO responseDto = await _serviceManager.WishlistService.DeleteStoryWishList(request);
+
+
+            ApiResponse<WishlistResponseDTO> response = new ApiResponse<WishlistResponseDTO>()
+            {
+                Success = true,
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Success",
+
+            };
             return Ok(response);
         }
 

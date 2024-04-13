@@ -13,9 +13,6 @@ namespace Contracts.DTOs.Wishlist
         public Int64 Id { get; set; }
         public String ProviderToken { get; set; }
         public Int64 StoryId { get; set; }
-        
-
-
         public StoryResponseDTO Story { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace Domain.RepositoryInterfaces
     {
         Task<IEnumerable<Wishlist>> getStoriesUserWishList(String ProviderToken);
 
+        Task<Wishlist?> getStoryByWishList(String ProviderToken, Int64 StoryId);
         void Insert(Wishlist wishlist);
         void Update(Wishlist wishlist);
         void Delete(Wishlist wishlist);

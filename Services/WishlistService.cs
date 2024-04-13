@@ -55,5 +55,31 @@ namespace Services
 
             return storiesResponse;
         }
+
+        public async Task<WishlistResponseDTO?> GetStoryByWishlist(String ProviderToken, Int64 StoryId)
+        {
+            Wishlist?  story = await _repositoryManager.WishlistRepository.getStoryByWishList(ProviderToken, StoryId);
+
+            WishlistResponseDTO storiesResponse =
+            _mapper.Map<Wishlist?, WishlistResponseDTO>(story);
+
+
+            return storiesResponse;
+        }
+
+        public async Task<WishlistResponseDTO> DeleteStoryWishList(StoryUserWishlistCreate storyUserWishlistCreate)
+        {
+
+            Wishlist wishlist = _mapper.Map<StoryUserWishlistCreate, Wishlist>(storyUserWishlistCreate);
+
+
+            _repositoryManager.WishlistRepository.Delete(wishlist);
+
+
+            WishlistResponseDTO response = _mapper.Map<Wishlist, WishlistResponseDTO>(wishlist);
+
+            return response;
+        }
+
     }
 }

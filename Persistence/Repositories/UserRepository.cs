@@ -14,10 +14,11 @@ public class UserRepository : IUserRepository
         _genericRepository = genericRepository;
     }
 
-    public async Task<User> GetUser(String ProviderToken)
+    public async Task<User?> GetUser(String ProviderToken)
     {
         return await _genericRepository.Table
-            .FirstOrDefaultAsync(s => s.ProviderToken == ProviderToken);
+            .Where(s => s.ProviderToken == ProviderToken)
+            .FirstOrDefaultAsync();
     }
 
     public void Insert(User user)
@@ -25,9 +26,9 @@ public class UserRepository : IUserRepository
         _genericRepository.Insert(user);
     }
 
-    public void Update(User user)
+    public async void UpdateAsync(User user)
     {
-        _genericRepository.Update(user);
+         await _genericRepository.UpdateAsync(user);
     }
 
     public void Delete(User user)

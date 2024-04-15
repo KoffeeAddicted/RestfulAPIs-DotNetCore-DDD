@@ -33,34 +33,34 @@ namespace Services
 
         public async Task<UserResponseDTO> CreateUserAsync(UserCreateCustomerAuthen userCreateCustomerAuthen)
         {
+            User? existUser = await _repositoryManager.UserRepository.GetUser(userCreateCustomerAuthen.ProviderToken);
 
-            User user = _mapper.Map<UserCreateCustomerAuthen, User>(userCreateCustomerAuthen);
-
-            User? existUser = await _repositoryManager.UserRepository.GetUser(user.ProviderToken);
-
-            if (existUser != null)
+            if (!(existUser is null))
             {
-                User updatedData = new User
-                {   Id = existUser.Id, 
-                    Email = user.Email, 
-                    Password = user.Password, 
-                    ProviderToken = existUser.ProviderToken, 
-                    ProfilePicture = user.ProfilePicture,
-                    IsAdmin = existUser.IsAdmin,
-                    IsDeleted = existUser.IsDeleted,
-                    Wishlists = existUser.Wishlists
-                }
-                 ;
-                _repositoryManager.UserRepository.UpdateAsync(updatedData);
+                existUser.Email = userCreateCustomerAuthen.Email;
+                existUser.Password = userCreateCustomerAuthen.Password;
+                existUser.ProfilePicture = userCreateCustomerAuthen.ProfilePicture;
+                await _repositoryManager.UserRepository.UpdateAsync(existUser);
+                
+                UserResponseDTO response = _mapper.Map<User?, UserResponseDTO>(existUser);
+
+                return response;
             }
             else
             {
-              _repositoryManager.UserRepository.Insert(user);
+                User user = new User()
+                {
+                    Email = userCreateCustomerAuthen.Email,
+                    Password = userCreateCustomerAuthen.Password,
+                    ProfilePicture = userCreateCustomerAuthen.ProfilePicture,
+                    ProviderToken = userCreateCustomerAuthen.ProviderToken
+                };
+                _repositoryManager.UserRepository.Insert(user);
+                
+                UserResponseDTO response = _mapper.Map<User?, UserResponseDTO>(user);
+
+                return response;
             }
-
-            UserResponseDTO response = _mapper.Map<User?, UserResponseDTO>(user);
-
-            return response;
         }
 
         public async Task<UserResponseDTO?> GetUserAsync(String ProviderToken)

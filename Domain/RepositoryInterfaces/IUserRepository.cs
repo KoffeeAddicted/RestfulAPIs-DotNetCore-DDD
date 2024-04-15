@@ -8,6 +8,6 @@ public interface IUserRepository
     Task<User?>GetUser(String ProviderToken);
 
     void Insert(User user);
-    void UpdateAsync(User user);
+    Task UpdateAsync(User user);
     void Delete(User user);
 }

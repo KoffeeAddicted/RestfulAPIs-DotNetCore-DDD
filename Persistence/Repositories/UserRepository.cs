@@ -26,7 +26,7 @@ public class UserRepository : IUserRepository
         _genericRepository.Insert(user);
     }
 
-    public async void UpdateAsync(User user)
+    public async Task UpdateAsync(User user)
     {
          await _genericRepository.UpdateAsync(user);
     }

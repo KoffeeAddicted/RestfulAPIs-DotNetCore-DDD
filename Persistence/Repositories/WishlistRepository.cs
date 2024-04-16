@@ -18,14 +18,14 @@ public class WishlistRepository : IWishlistRepository
     {
         return await _genericRepository.Table
             .Include(s => s.Story)
-            .Where(s => s.ProviderToken  == ProviderToken && s.IsDeleted == false)
+            .Where(s => s.ProviderToken  == ProviderToken)
             .ToListAsync();
     }
     public async Task<Wishlist?> getStoryByWishList (String ProviderToken, Int64 StoryId)
     {
         return await _genericRepository.Table
             .Include(s => s.Story)
-            .Where(s => s.ProviderToken == ProviderToken && s.StoryId == StoryId && s.IsDeleted == false )
+            .Where(s => s.ProviderToken == ProviderToken && s.StoryId == StoryId )
             .FirstOrDefaultAsync();
     }
 

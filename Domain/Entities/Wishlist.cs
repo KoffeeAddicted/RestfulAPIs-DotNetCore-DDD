@@ -2,7 +2,7 @@
 
 namespace Domain.Entities;
 
-public class Wishlist : AuditEntity<Int64>
+public class Wishlist 
 {
     public String ProviderToken { get; set; }
 

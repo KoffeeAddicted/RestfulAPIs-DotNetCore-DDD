@@ -41,7 +41,7 @@ namespace Services
                 existUser.Password = userCreateCustomerAuthen.Password;
                 existUser.ProfilePicture = userCreateCustomerAuthen.ProfilePicture;
                 await _repositoryManager.UserRepository.UpdateAsync(existUser);
-                
+
                 UserResponseDTO response = _mapper.Map<User?, UserResponseDTO>(existUser);
 
                 return response;
@@ -56,7 +56,7 @@ namespace Services
                     ProviderToken = userCreateCustomerAuthen.ProviderToken
                 };
                 _repositoryManager.UserRepository.Insert(user);
-                
+
                 UserResponseDTO response = _mapper.Map<User?, UserResponseDTO>(user);
 
                 return response;

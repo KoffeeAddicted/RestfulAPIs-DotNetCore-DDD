@@ -14,4 +14,6 @@ public class User : DeleteEntity<Int64>
 
 
     public virtual ICollection<Wishlist> Wishlists { get; set; }
+
+    public virtual ICollection<History> Histories { get; set; }
 }

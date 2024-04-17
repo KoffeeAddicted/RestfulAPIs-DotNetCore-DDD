@@ -1,4 +1,5 @@
 using AutoMapper;
+using Contracts.DTOs.History;
 using Contracts.DTOs.Stories;
 using Contracts.DTOs.Users;
 using Contracts.DTOs.Wishlist;
@@ -45,6 +46,13 @@ public class MappingProfile : Profile
 
         CreateMap<StoryUserWishlistCreate, Wishlist>();
         CreateMap<Wishlist, WishlistResponseDTO>();
+
+        #endregion
+
+        #region History
+
+        CreateMap<AddHistoryStoryRequest, History>();
+        CreateMap<History, HistoryResponseDTO>();
 
         #endregion
     }

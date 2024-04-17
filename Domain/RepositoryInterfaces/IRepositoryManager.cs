@@ -7,4 +7,5 @@ public interface IRepositoryManager
 
     IUserRepository UserRepository { get; }
     IWishlistRepository WishlistRepository { get; }
+    IHistoryRepository HistoryRepository { get; }
 }

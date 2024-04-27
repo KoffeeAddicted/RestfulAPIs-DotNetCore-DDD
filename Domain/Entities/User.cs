@@ -8,6 +8,8 @@ public class User : DeleteEntity<Int64>
 
     public String? Email { get; set; }
     public String? Password { get; set; }
+
+    public String Name { get; set;  }
     public Boolean IsAdmin { get; set; } = false;
 
     public String? ProfilePicture { get; set; }
@@ -15,5 +17,6 @@ public class User : DeleteEntity<Int64>
 
     public virtual ICollection<Wishlist> Wishlists { get; set; }
 
+    public virtual ICollection<Comment> Comments { get; set; }
     public virtual ICollection<History> Histories { get; set; }
 }

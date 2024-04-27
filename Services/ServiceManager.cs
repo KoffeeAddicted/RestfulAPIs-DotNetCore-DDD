@@ -13,6 +13,7 @@ public sealed class ServiceManager : IServiceManager
     private readonly Lazy<IUserService> _lazyUserService;
     private readonly Lazy<IWishlistService> _lazyWishlistService;
     private readonly Lazy<IHistoryService> _lazyHistoryService;
+    private readonly Lazy<ICommentService> _lazyCommentService;
 
     public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, IOptions<AppSettings> appSettings)
     {
@@ -21,6 +22,7 @@ public sealed class ServiceManager : IServiceManager
         _lazyUserService = new Lazy<IUserService>(() => new UserService(repositoryManager, mapper, appSettings));
         _lazyWishlistService = new Lazy<IWishlistService>(() => new WishlistService(repositoryManager, mapper, appSettings));
         _lazyHistoryService = new Lazy<IHistoryService>(() => new HistoryService(repositoryManager, mapper, appSettings));
+        _lazyCommentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager, mapper,appSettings));
     }
 
     public IStoryService StoryService => _lazyStoryService.Value;
@@ -28,4 +30,5 @@ public sealed class ServiceManager : IServiceManager
     public IUserService UserService => _lazyUserService.Value;
     public IWishlistService WishlistService => _lazyWishlistService.Value;
     public IHistoryService HistoryService => _lazyHistoryService.Value;
+    public ICommentService CommentService => _lazyCommentService.Value;
 }

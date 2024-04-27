@@ -16,5 +16,6 @@ namespace Contracts.DTOs.Users
         public String? Email { get; set; }
         public String? Password { get; set; }
         public String? ProfilePicture { get; set; }
+        public String Name { get; set; }
     }
 }

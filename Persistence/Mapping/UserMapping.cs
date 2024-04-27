@@ -30,6 +30,8 @@ public class UserMapping : EntityTypeConfiguration<User>
 
         entity.Property(a => a.Password);
 
+        entity.Property(a => a.Name);
+
         entity.Property(a => a.IsAdmin);
 
         entity.Property(a => a.ProfilePicture);
@@ -47,12 +49,7 @@ public class UserMapping : EntityTypeConfiguration<User>
         entity.HasData(
             new List<User>()
             {
-                new User()
-                {
-                    Id = 1,
-                    ProviderToken = "123",
-                    ProfilePicture = "picture.com"
-                },
+
             }
         );
         #endregion

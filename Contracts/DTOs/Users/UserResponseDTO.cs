@@ -13,6 +13,7 @@ namespace Contracts.DTOs.Users
         public String ProviderToken { get; set; }
         public String Email { get; set; }
         public String Password { get; set; }
+        public String Name { get; set; }
         public String ProfilePicture { get; set; }
         public String IsDeleted { get; set; }
         public Boolean IsAdmin { get; set; }

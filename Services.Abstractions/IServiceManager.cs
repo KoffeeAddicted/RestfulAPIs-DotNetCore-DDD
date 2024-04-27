@@ -7,4 +7,5 @@ public interface IServiceManager
     IUserService UserService { get; }
     IWishlistService WishlistService { get; }
     IHistoryService HistoryService { get; }
+    ICommentService CommentService { get; }
 }

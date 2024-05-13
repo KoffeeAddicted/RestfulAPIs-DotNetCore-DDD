@@ -23,8 +23,6 @@ public class Story : AuditEntity<Int64>
     public virtual ICollection<Wishlist> Wishlists { get; set; } =  new HashSet<Wishlist>();
 
     public virtual ICollection<History> Histories { get; set; } = new HashSet<History>();
-
-    public virtual ICollection<StoryTag> StoryTags { get; set; } = new HashSet<StoryTag>();
     
     public StoryCategory StoryCategory { get; set; }
 }

@@ -57,10 +57,6 @@ public class StoryMapping : EntityTypeConfiguration<Story>
             .WithMany(sc => sc.Stories)
             .HasForeignKey(s => s.StoryCategoryId);
 
-        entity.HasMany(s => s.StoryTags)
-            .WithOne(st => st.Story)
-            .HasForeignKey(st => st.StoryId);
-
         entity.HasMany(s => s.Wishlists)
             .WithOne(st => st.Story)
             .HasForeignKey(st => st.StoryId);

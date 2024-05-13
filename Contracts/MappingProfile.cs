@@ -1,4 +1,5 @@
 using AutoMapper;
+using Contracts.DTOs.Comment;
 using Contracts.DTOs.History;
 using Contracts.DTOs.Stories;
 using Contracts.DTOs.Users;
@@ -53,6 +54,12 @@ public class MappingProfile : Profile
 
         CreateMap<AddHistoryStoryRequest, History>();
         CreateMap<History, HistoryResponseDTO>();
+
+        #endregion
+
+        #region Comment
+        CreateMap<Comment,  CommentResponseDTO>();
+        CreateMap<RequestAddCommentDTO, Comment>();
 
         #endregion
     }

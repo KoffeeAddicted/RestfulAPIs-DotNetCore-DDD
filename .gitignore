@@ -402,3 +402,4 @@ Persistence/Migrations/
 *.DS_Store
 AudioApp/.idea/
 AudioApp/appsettings.UAT.json
+AudioApp/appsettings.Prod.json

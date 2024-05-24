@@ -1,6 +1,7 @@
 namespace Domain.RepositoryInterfaces;
 
-public class IAudioRepository
+public interface IAudioRepository
 {
-    
+    Task<IEnumerable<Audio>> GetTop10YoutubeVideoAsync();
+    void UpdateAsync(List<Audio> audios);
 }

@@ -3,8 +3,11 @@ using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Repositories;
+using Quartz;
 using Services;
 using Services.Absractions;
+using Services.Jobs;
+using Services.Middlewares;
 
 IConfigurationRoot configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
@@ -43,6 +46,23 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 builder.Services.AddScoped<IAudioAppDbContext>(x =>
     new AudioAppDbContext(new DbContextOptionsBuilder<AudioAppDbContext>().UseNpgsql(dbConnectionString).Options));
 
+builder.Services.AddQuartz(q =>  
+{
+    // Create a "key" for the job
+    var jobKey = new JobKey("ConvertYoutubeAndUploadS3Job");
+
+    // Register the job with the DI container
+    q.AddJob<ConvertYoutubeAndUploadS3Job>(opts => opts.WithIdentity(jobKey));
+                
+    // Create a trigger for the job
+    q.AddTrigger(opts => opts
+        .ForJob(jobKey)
+        .WithIdentity("ConvertYoutubeAndUploadS3Job-trigger")
+        .WithCronSchedule("0/5 * * * * ?"));
+
+});
+builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -56,7 +76,7 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.MapControllers();
-
+app.UseSignatureValidationMiddleware();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.Run();

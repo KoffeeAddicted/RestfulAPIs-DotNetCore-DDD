@@ -9,4 +9,5 @@ public interface IRepositoryManager
     IWishlistRepository WishlistRepository { get; }
     IHistoryRepository HistoryRepository { get; }
     ICommentRepository CommentRepository { get; }
+    IAudioRepository AudioRepository { get; }
 }

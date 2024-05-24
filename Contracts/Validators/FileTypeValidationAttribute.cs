@@ -177,5 +177,5 @@ public class FileTypeValidationAttribute : ValidationAttribute
         return extension.Equals(".mp4", StringComparison.OrdinalIgnoreCase) ||
                extension.Equals(".avi", StringComparison.OrdinalIgnoreCase) ||
                extension.Equals(".mkv", StringComparison.OrdinalIgnoreCase);
-}
+    }
 }

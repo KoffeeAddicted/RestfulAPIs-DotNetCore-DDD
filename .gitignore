@@ -397,8 +397,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-Persistence/Migrations/
-
 *.DS_Store
 AudioApp/.idea/
 AudioApp/appsettings.UAT.json

@@ -6,7 +6,9 @@ using Contracts.Helpers;
 using Domain;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using OfficeOpenXml;
 using Services.Absractions;
 using Services.DbEnum;
 using Services.DTOs.Episodes;
@@ -68,20 +70,6 @@ public class StoryService : IStoryService
         if(string.IsNullOrEmpty(storyCreateRequest.Thumbnail))
             storyCreateRequest.Thumbnail = await YoutubeHelper.GetThumbnail(storyCreateRequest.Episodes.FirstOrDefault().File);
         
-        foreach (EpisodeCreateRequest episode in storyCreateRequest.Episodes)
-        {
-            switch (episode.InputAudioType)
-            {
-                case InputUploadAudioTypeEnum.YoutubeLink:
-                    String link = await UploadYoutubeVideoToS3(episode.File);
-                    episode.Duration = await YoutubeHelper.GetVideoDuration();
-                    episode.File = link;
-                    break;
-                default:
-                    break;
-            }
-        }
-        
         Story story = _mapper.Map<StoryCreateRequest, Story>(storyCreateRequest);
         
         _repositoryManager.StoryRepository.Insert(story);
@@ -91,14 +79,61 @@ public class StoryService : IStoryService
         return response;
     }
 
-    public async Task<String> UploadYoutubeVideoToS3(string url)
+    public async Task<List<StoryCreateRequest>> GetStoryRequestListByExcel(IFormFile excelFile)
     {
-        YoutubeHelper.url = url;
-        
-        Stream videoStream = await YoutubeHelper.DownloadYoutubeVideo();
-        
-        String link = await ConvertToAudioHelper.ConvertStreamVideoToAudioStreamAndUploadOnS3(_appSettings, videoStream);
+        // StoryCreateRequest storyCreateRequests = new StoryCreateRequest();
+        //
+        // using (var stream = new MemoryStream())
+        // {
+        //     await excelFile.CopyToAsync(stream);
+        //     using (var package = new ExcelPackage(stream))
+        //     {
+        //         ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+        //         int rowCount = worksheet.Dimension.Rows;
+        //         int colCount = worksheet.Dimension.Columns;
+        //
+        //         // Validate Excel template
+        //         if (!ValidateExcelTemplate(worksheet))
+        //         {
+        //             throw new Exception("Invalid Excel template.");
+        //         }
+        //
+        //         for (int row = 2; row <= rowCount; row++) // Assuming first row is headers
+        //         {
+        //             var storyRequest = new StoryCreateRequest
+        //             {
+        //                 Name = worksheet.Cells[row, 1].Text,
+        //                 Author = worksheet.Cells[row, 2].Text,
+        //                 Voice = worksheet.Cells[row, 3].Text,
+        //                 Description = worksheet.Cells[row, 4].Text,
+        //                 Type = worksheet.Cells[row, 5].Text,
+        //                 Category = worksheet.Cells[row, 6].Text,
+        //                 Link = worksheet.Cells[row, 7].Text,
+        //                 Source = worksheet.Cells[row, 8].Text,
+        //                 Episode = int.Parse(worksheet.Cells[row, 9].Text)
+        //             };
+        //
+        //             storyCreateRequests.Add(storyRequest);
+        //         }
+        //     }
+        // }
+        //
+        // return storyCreateRequests;
 
-        return $"{_appSettings.AwsSettings.CloudFrontDomain}/{link}";
+        return null;
+    }
+    
+    private bool ValidateExcelTemplate(ExcelWorksheet worksheet)
+    {
+        var headers = new List<string> { "Tên", "Tác giả", "Giọng đọc", "Mô tả", "Sách/Truyện", "Thể loại", "Link", "Nguồn", "Tập" };
+
+        for (int col = 1; col <= headers.Count; col++)
+        {
+            if (worksheet.Cells[1, col].Text != headers[col - 1])
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

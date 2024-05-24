@@ -22,7 +22,7 @@ public partial class AudioAppDbContext : DbContext, IAudioAppDbContext
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql("");
+        optionsBuilder.UseNpgsql("User ID=koffee;Password=koffee;Host=103.166.182.81;Port=5432;Database=audio_app;Pooling=true;Minimum Pool Size=0;Maximum Pool Size=200;Timeout=60;Application Name=AppName");
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)

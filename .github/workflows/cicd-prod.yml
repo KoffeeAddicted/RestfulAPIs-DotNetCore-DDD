@@ -47,49 +47,49 @@ jobs:
       - name: Inject choose config appsetting
         uses: microsoft/variable-substitution@v1
         with:
-          files: "${{ github.workspace }}/{{ env.WORKING_DIRECTORY }}/appsettings.json"
+          files: "${{ github.workspace }}/${{ env.WORKING_DIRECTORY }}/appsettings.json"
         env:
           ASPNETCORE_ENVIRONMENT: Prod
           
       - name: Inject DB secrets to application
         uses: microsoft/variable-substitution@v1
         with:
-          files: "${{ github.workspace }}/{{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
+          files: "${{ github.workspace }}/${{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
         env:
           AppSettings.DatabaseConnectionString: ${{ secrets.DATABASE_CONNECTION_STRING }}
           
       - name: Inject AWS AccessKey to application
         uses: microsoft/variable-substitution@v1
         with:
-          files: "${{ github.workspace }}/{{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
+          files: "${{ github.workspace }}/${{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
         env:
           AppSettings.AWSSettings.AccessKey: ${{ secrets.AWS_ACCESS_KEY }}
           
       - name: Inject AWS SecretKey to application
         uses: microsoft/variable-substitution@v1
         with:
-          files: "${{ github.workspace }}/{{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
+          files: "${{ github.workspace }}/${{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
         env:
           AppSettings.AWSSettings.SecretKey: ${{ secrets.AWS_SECRET_KEY }}
           
       - name: Inject AWS S3 bucket name to application
         uses: microsoft/variable-substitution@v1
         with:
-          files: "${{ github.workspace }}/{{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
+          files: "${{ github.workspace }}/${{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
         env:
           AppSettings.AWSSettings.BucketName: ${{ secrets.AWS_BUCKET_NAME }}
           
       - name: Inject AWS Cloudfront domain to application
         uses: microsoft/variable-substitution@v1
         with:
-          files: "${{ github.workspace }}/{{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
+          files: "${{ github.workspace }}/${{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
         env:
           AppSettings.AWSSettings.CloudFrontDomain: ${{ secrets.AWS_CLOUDFRONT_DOMAIN }}
 
       - name: Inject secret signature to application
         uses: microsoft/variable-substitution@v1
         with:
-          files: "${{ github.workspace }}/{{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
+          files: "${{ github.workspace }}/${{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
         env:
           AppSettings.SecretKey: ${{ secrets.SIGNATURE_KEY }}
           

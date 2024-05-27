@@ -137,5 +137,5 @@ jobs:
             docker pull $DOCKER_IMAGE
             docker stop audio-app || true
             docker rm audio-app || true
-            docker run -dp --name audio-app -p 8080:3000 $DOCKER_IMAGE
+            docker run -dp 8080:3000 $DOCKER_IMAGE
           EOF

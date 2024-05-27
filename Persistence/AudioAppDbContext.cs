@@ -22,9 +22,11 @@ public partial class AudioAppDbContext : DbContext, IAudioAppDbContext
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var connectionString = Environment.GetEnvironmentVarieble("DATABASE_CONNECTION_STRING");
+        var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
         if(!string.IsNullOrEmpty(connectionString))
-            optionsBuilder.UseNpgsql("");
+        {
+            optionsBuilder.UseNpgsql(connectionString);
+        }
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)

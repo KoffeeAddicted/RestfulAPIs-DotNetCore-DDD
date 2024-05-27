@@ -92,7 +92,7 @@ jobs:
         with:
           files: "${{ github.workspace }}/${{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
         env:
-          AppSettings.SecretKey: ${{ secrets.SIGNATURE_KEY }
+          AppSettings.SecretKey: ${{ secrets.SIGNATURE_KEY }}
           
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -109,7 +109,7 @@ jobs:
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/audio-app
           tags: |
-              type=raw,value=${{ github.sha }}
+            type=raw,value=${{ github.sha }}
   
       - name: Build and push Docker image
         uses: docker/build-push-action@v2

@@ -51,22 +51,22 @@ builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 
-// builder.Services.AddQuartz(q =>  
-// {
-//     // Create a "key" for the job
-//     var jobKey = new JobKey("ConvertYoutubeAndUploadS3Job");
-//
-//     // Register the job with the DI container
-//     q.AddJob<ConvertYoutubeAndUploadS3Job>(opts => opts.WithIdentity(jobKey));
-//                 
-//     // Create a trigger for the job
-//     q.AddTrigger(opts => opts
-//         .ForJob(jobKey)
-//         .WithIdentity("ConvertYoutubeAndUploadS3Job-trigger")
-//         .WithCronSchedule("0/50 * * * * ?"));
-//
-// });
-// builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+builder.Services.AddQuartz(q =>  
+{
+    // Create a "key" for the job
+    var jobKey = new JobKey("ConvertYoutubeAndUploadS3Job");
+
+    // Register the job with the DI container
+    q.AddJob<ConvertYoutubeAndUploadS3Job>(opts => opts.WithIdentity(jobKey));
+                
+    // Create a trigger for the job
+    q.AddTrigger(opts => opts
+        .ForJob(jobKey)
+        .WithIdentity("ConvertYoutubeAndUploadS3Job-trigger")
+        .WithCronSchedule("0/50 * * * * ?"));
+
+});
+builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
 var app = builder.Build();
 

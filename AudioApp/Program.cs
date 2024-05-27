@@ -1,6 +1,7 @@
 using Contracts;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Persistence;
 using Persistence.Repositories;
 using Quartz;
@@ -34,34 +35,38 @@ builder.Services.AddControllers(
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
-String dbConnectionString = builder.Configuration.GetSection("AppSettings:DatabaseConnectionString").Value ?? throw new InvalidOperationException("Can not get DatabaseConnectionString");
 
+builder.Services.AddScoped<IAudioAppDbContext, AudioAppDbContext>(provider =>
+{
+    var options = provider.GetRequiredService<IOptions<AppSettings>>();
+    var dbContextOptions = new DbContextOptionsBuilder<AudioAppDbContext>()
+        .UseNpgsql(options.Value.DatabaseConnectionString)
+        .Options;
+    return new AudioAppDbContext(dbContextOptions, options);
+});
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
 
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-//DbContexts
-builder.Services.AddScoped<IAudioAppDbContext>(x =>
-    new AudioAppDbContext(new DbContextOptionsBuilder<AudioAppDbContext>().UseNpgsql(dbConnectionString).Options));
 
-builder.Services.AddQuartz(q =>  
-{
-    // Create a "key" for the job
-    var jobKey = new JobKey("ConvertYoutubeAndUploadS3Job");
-
-    // Register the job with the DI container
-    q.AddJob<ConvertYoutubeAndUploadS3Job>(opts => opts.WithIdentity(jobKey));
-                
-    // Create a trigger for the job
-    q.AddTrigger(opts => opts
-        .ForJob(jobKey)
-        .WithIdentity("ConvertYoutubeAndUploadS3Job-trigger")
-        .WithCronSchedule("0/5 * * * * ?"));
-
-});
-builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+// builder.Services.AddQuartz(q =>  
+// {
+//     // Create a "key" for the job
+//     var jobKey = new JobKey("ConvertYoutubeAndUploadS3Job");
+//
+//     // Register the job with the DI container
+//     q.AddJob<ConvertYoutubeAndUploadS3Job>(opts => opts.WithIdentity(jobKey));
+//                 
+//     // Create a trigger for the job
+//     q.AddTrigger(opts => opts
+//         .ForJob(jobKey)
+//         .WithIdentity("ConvertYoutubeAndUploadS3Job-trigger")
+//         .WithCronSchedule("0/50 * * * * ?"));
+//
+// });
+// builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
 var app = builder.Build();
 

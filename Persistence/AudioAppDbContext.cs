@@ -1,28 +1,27 @@
-﻿using System.Data;
-using System.Data.Common;
-using System.Reflection;
+﻿using System.Reflection;
 using Contracts;
-using LinqToDB.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-
-namespace Persistence;
+using Persistence;
 
 public partial class AudioAppDbContext : DbContext, IAudioAppDbContext
 {
-    public AudioAppDbContext()
-    {
+    private readonly string _connectionString;
 
+    public AudioAppDbContext(IOptions<AppSettings> settings)
+    {
+        _connectionString = settings.Value.DatabaseConnectionString;
     }
     
-    public AudioAppDbContext(DbContextOptions<AudioAppDbContext> options)
+    public AudioAppDbContext(DbContextOptions<AudioAppDbContext> options, IOptions<AppSettings> settings)
         : base(options)
     {
+        _connectionString = settings.Value.DatabaseConnectionString;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql("");
+        optionsBuilder.UseNpgsql(_connectionString);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

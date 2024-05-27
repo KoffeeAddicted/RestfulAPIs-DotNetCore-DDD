@@ -38,11 +38,8 @@ jobs:
       - name: Install dotnet-ef tool
         run: dotnet tool install --global dotnet-ef
 
-      - name: Add .NET tools to PATH
-        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-
       - name: Run database migrations
-        run: dotnet ef database update --project "${{ env.WORKING_DIRECTORY }}"
+        run: dotnet ef database update --project "Persistence/Persistence"
         env:
           DOTNET_ENVIRONMENT: Production
           DATABASE_CONNECTION_STRING: ${{ secrets.DATABASE_CONNECTION_STRING }}

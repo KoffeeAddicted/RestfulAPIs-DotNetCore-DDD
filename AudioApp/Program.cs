@@ -35,15 +35,9 @@ builder.Services.AddControllers(
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
-
-builder.Services.AddScoped<IAudioAppDbContext, AudioAppDbContext>(provider =>
-{
-    var options = provider.GetRequiredService<IOptions<AppSettings>>();
-    var dbContextOptions = new DbContextOptionsBuilder<AudioAppDbContext>()
-        .UseNpgsql(options.Value.DatabaseConnectionString)
-        .Options;
-    return new AudioAppDbContext(dbContextOptions, options);
-});
+String dbConnectionString = builder.Configuration.GetSection("AppSettings:DatabaseConnectionString").Value ?? throw new InvalidOperationException("Can not get DatabaseConnectionString");
+builder.Services.AddScoped<IAudioAppDbContext>(x =>
+    new AudioAppDbContext(new DbContextOptionsBuilder<AudioAppDbContext>().UseNpgsql(dbConnectionString).Options));
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
 
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();

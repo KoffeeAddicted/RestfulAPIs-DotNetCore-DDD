@@ -10,15 +10,37 @@ on:
 
 env:
   CONFIGURATION: Release
-  DOTNET_CORE_VERSION: 8.x
+  DOTNET_CORE_VERSION: 8.0.4
   WORKING_DIRECTORY: AudioApp
 
 jobs:
 
+  code-analysis:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      matrix:
+        language: [ 'csharp' ]
+    name: Analyze ${{ matrix.language }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
   build:
 
     runs-on: ubuntu-latest
-
+    needs: code-analysis
     steps:
       - uses: actions/checkout@v3
       
@@ -145,5 +167,5 @@ jobs:
             
             docker rm audio-app || true
             
-            docker run -dp 3000:8080 $DOCKER_IMAGE
+            docker run -dp 3000:8080 --name audio-app $DOCKER_IMAGE
           EOF

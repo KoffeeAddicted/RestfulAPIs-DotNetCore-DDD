@@ -35,6 +35,9 @@ jobs:
       - name: Test
         run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
 
+      - name: Install dotnet-ef tool
+        run: dotnet tool install --global dotnet-ef
+
       - name: Run database migrations
         run: dotnet ef database update --project "${{ env.WORKING_DIRECTORY }}"
         env:

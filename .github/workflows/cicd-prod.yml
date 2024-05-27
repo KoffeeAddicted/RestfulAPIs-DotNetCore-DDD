@@ -69,7 +69,7 @@ jobs:
           ASPNETCORE_ENVIRONMENT: Prod
 
       - name: Run database migrations
-        run: dotnet ef database update --project "Persistence/Persistence.csproj" --startup-project "AudioApp/AudioApp.csproj" --environment Production
+        run: dotnet ef database update --project "Persistence/Persistence.csproj" --startup-project "AudioApp/AudioApp.csproj"
         env:
           DOTNET_ENVIRONMENT: Production
           DATABASE_CONNECTION_STRING: ${{ secrets.DATABASE_CONNECTION_STRING }}

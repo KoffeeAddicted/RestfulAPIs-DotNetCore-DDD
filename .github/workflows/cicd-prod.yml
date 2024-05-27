@@ -186,3 +186,42 @@ jobs:
             
             docker run -dp 3000:8080 --name audio-app $DOCKER_IMAGE
           EOF
+  notification-success:
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: success()
+    steps:
+      - name: Send success notification to Telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_GROUP_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            ✅ Deployment succeeded!
+            Repository: ${{ github.repository }}
+            Commit: ${{ github.sha }}
+            Branch: ${{ github.ref_name }}
+            Requested by: ${{ github.actor }}
+            Workflow: ${{ github.workflow }}
+            Job: ${{ github.job }}
+            URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  notification-fail:
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: failure()
+    steps:
+      - name: Send failure notification to Telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_GROUP_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            ❌ Deployment failed!
+            Repository: ${{ github.repository }}
+            Commit: ${{ github.sha }}
+            Branch: ${{ github.ref_name }}
+            Requested by: ${{ github.actor }}
+            Workflow: ${{ github.workflow }}
+            Job: ${{ github.job }}
+            URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

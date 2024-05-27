@@ -19,19 +19,13 @@ public partial class AudioAppDbContext : DbContext, IAudioAppDbContext
         : base(options)
     {
     }
-    
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
-        if (!string.IsNullOrEmpty(connectionString))
-        {
-            optionsBuilder.UseNpgsql(connectionString);
-        }
-        else
-        {
-            throw new InvalidOperationException("Connection string is not set.");
-        }    }
-    
+        optionsBuilder.UseNpgsql(connectionString);
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //dynamically load all entity and query type configurations

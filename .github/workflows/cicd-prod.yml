@@ -69,10 +69,11 @@ jobs:
           ASPNETCORE_ENVIRONMENT: Prod
 
       - name: Run database migrations
-        run: dotnet ef database update --project "Persistence/Persistence.csproj"
+        run: dotnet ef database update --project "Persistence/Persistence.csproj" --startup-project "AudioApp/AudioApp.csproj" --environment Production
         env:
           DOTNET_ENVIRONMENT: Production
           DATABASE_CONNECTION_STRING: ${{ secrets.DATABASE_CONNECTION_STRING }}
+
           
       - name: Inject DB secrets to application
         uses: microsoft/variable-substitution@v1

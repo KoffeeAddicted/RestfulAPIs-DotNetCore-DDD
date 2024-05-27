@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using System.Data.Common;
 using System.Reflection;
 using Contracts;
@@ -20,10 +20,12 @@ public partial class AudioAppDbContext : DbContext, IAudioAppDbContext
     {
     }
     
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    // {
-    //     optionsBuilder.UseNpgsql("");
-    // }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        var connectionString = Environment.GetEnvironmentVarieble("DATABASE_CONNECTION_STRING");
+        if(!string.IsNullOrEmpty(connectionString))
+            optionsBuilder.UseNpgsql("");
+    }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

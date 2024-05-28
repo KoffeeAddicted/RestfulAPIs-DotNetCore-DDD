@@ -47,10 +47,18 @@ public class ConvertYoutubeAndUploadS3Job : IJob
     private async Task<String> UploadYoutubeVideoToS3(string url)
     {
         YoutubeHelper.url = url;
+        String link = string.Empty;
+        try
+        {
+            Stream videoStream = await YoutubeHelper.DownloadYoutubeVideo();
         
-        Stream videoStream = await YoutubeHelper.DownloadYoutubeVideo();
+            link = await ConvertToAudioHelper.ConvertStreamVideoToAudioStreamAndUploadOnS3(_appSettings, videoStream);
+        }
+        catch (Exception e)
+        {
+            return "Error";
+        }
         
-        String link = await ConvertToAudioHelper.ConvertStreamVideoToAudioStreamAndUploadOnS3(_appSettings, videoStream);
 
         return $"{_appSettings.AwsSettings.CloudFrontDomain}/{link}";
     }

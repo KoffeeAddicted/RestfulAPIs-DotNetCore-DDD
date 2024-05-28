@@ -31,6 +31,8 @@ public class AudioMapping : EntityTypeConfiguration<Audio>
         entity.HasOne(a => a.Episode)
             .WithOne(e => e.Audio)
             .HasForeignKey<Audio>(a => a.EpisodeId);
+
+        entity.Property(a => a.State).IsRequired().HasDefaultValue(0);
         
         #endregion
         

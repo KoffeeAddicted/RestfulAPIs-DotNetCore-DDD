@@ -68,6 +68,12 @@ jobs:
         env:
           ASPNETCORE_ENVIRONMENT: Prod
 
+      - name: Add database migration
+        run: dotnet ef migrations add "AutoMigration_$(date +'%Y%m%d%H%M%S')" --project "Persistence/Persistence.csproj"
+        env:
+          DOTNET_ENVIRONMENT: Production
+          DATABASE_CONNECTION_STRING: ${{ secrets.DATABASE_CONNECTION_STRING }}
+
       - name: Run database migrations
         run: dotnet ef database update --project "Persistence/Persistence.csproj"
         env:

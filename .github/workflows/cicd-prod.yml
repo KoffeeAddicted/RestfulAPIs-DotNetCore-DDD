@@ -175,8 +175,8 @@ jobs:
         run: |
           sshpass -p $VPS_PASSWORD ssh -o StrictHostKeyChecking=no -p $VPS_PORT $VPS_USERNAME@$VPS_IP <<EOF
             # Clean up previous containers and images
-            docker ps -aq | xargs docker rm -f || true
-            docker images -q | xargs docker rmi -f || true
+            docker ps -aq | xargs docker rm audio-app || true
+            docker images -q | xargs docker rmi audio-app || true
             
             # Pull the new Docker image
             docker pull $DOCKER_IMAGE

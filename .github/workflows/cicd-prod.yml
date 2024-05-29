@@ -185,6 +185,7 @@ jobs:
             # Run the new container with Nginx and Let's Encrypt
             docker run -dp 3000:8080 \
               --name audio-app \
+              --mount type=volume,source=letsencrypt,target=/etc/letsencrypt \
               $DOCKER_IMAGE
           EOF
   notification-success:

@@ -45,6 +45,11 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("State")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
                     b.HasKey("Id");
 
                     b.HasIndex("EpisodeId")
@@ -59,7 +64,8 @@ namespace Persistence.Migrations
                             Duration = 0L,
                             EpisodeId = 1L,
                             IsDeleted = false,
-                            Link = "123"
+                            Link = "123",
+                            State = 0
                         },
                         new
                         {
@@ -67,8 +73,59 @@ namespace Persistence.Migrations
                             Duration = 0L,
                             EpisodeId = 2L,
                             IsDeleted = false,
-                            Link = "456"
+                            Link = "456",
+                            State = 0
                         });
+                });
+
+            modelBuilder.Entity("Domain.Entities.Comment", b =>
+                {
+                    b.Property<long>("StoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ProviderToken")
+                        .HasColumnType("text");
+
+                    b.Property<long>("CreatedById")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("Rating")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("UpdateById")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UpdatedByName")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("StoryId", "ProviderToken");
+
+                    b.HasIndex("ProviderToken");
+
+                    b.ToTable("Comment", "public");
                 });
 
             modelBuilder.Entity("Domain.Entities.Episode", b =>
@@ -123,7 +180,7 @@ namespace Persistence.Migrations
                             Id = 1L,
                             CreatedById = 1L,
                             CreatedByName = "System",
-                            CreatedDateTime = new DateTime(2024, 5, 13, 5, 11, 21, 573, DateTimeKind.Utc).AddTicks(9280),
+                            CreatedDateTime = new DateTime(2024, 5, 29, 4, 9, 46, 405, DateTimeKind.Utc).AddTicks(4370),
                             IsDeleted = false,
                             OrderNumber = 1,
                             StoryId = 1L
@@ -133,7 +190,7 @@ namespace Persistence.Migrations
                             Id = 2L,
                             CreatedById = 1L,
                             CreatedByName = "System",
-                            CreatedDateTime = new DateTime(2024, 5, 13, 5, 11, 21, 573, DateTimeKind.Utc).AddTicks(9280),
+                            CreatedDateTime = new DateTime(2024, 5, 29, 4, 9, 46, 405, DateTimeKind.Utc).AddTicks(4370),
                             IsDeleted = false,
                             OrderNumber = 2,
                             StoryId = 1L
@@ -236,7 +293,7 @@ namespace Persistence.Migrations
                             Author = "Bí ẩn radio",
                             CreatedById = 1L,
                             CreatedByName = "System",
-                            CreatedDateTime = new DateTime(2024, 5, 13, 5, 11, 21, 575, DateTimeKind.Utc).AddTicks(3840),
+                            CreatedDateTime = new DateTime(2024, 5, 29, 4, 9, 46, 406, DateTimeKind.Utc).AddTicks(7950),
                             Description = "Câu chuyện về một làng chài nhỏ ở Nha Trang, nơi ẩn chứa những ký ức kinh hoàng, những khoánh khắc rùng rợn về loài ma đáng sợ: Ma da, trên những chuyến hải trình dài ngoài biển khơi....\n\nMời các bạn đón nghe chuyện ma kinh dị  (phần 1/2) của tác giả Nguyễn Quốc Huy (Huy Rùi) qua giọng đọc Tả Từ. Các bạn nên nghe bằng tai nghe để có trải nghiệm tốt nhất. Nếu cảm thấy thú vị, các bạn có thể sử dụng tính năng SuperThank (\"Cảm ơn\"), nút ở dưới các video để tặng cho MC một cốc cafe. Trân trọng!",
                             IsBook = false,
                             IsDeleted = false,
@@ -321,6 +378,10 @@ namespace Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
@@ -330,16 +391,6 @@ namespace Persistence.Migrations
                     b.HasKey("ProviderToken");
 
                     b.ToTable("User", "public");
-
-                    b.HasData(
-                        new
-                        {
-                            ProviderToken = "123",
-                            Id = 1L,
-                            IsAdmin = false,
-                            IsDeleted = false,
-                            ProfilePicture = "picture.com"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Audio", b =>
@@ -351,6 +402,25 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Episode");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Comment", b =>
+                {
+                    b.HasOne("Domain.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("ProviderToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Story", "Story")
+                        .WithMany("Comments")
+                        .HasForeignKey("StoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Story");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.Episode", b =>
@@ -421,6 +491,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Story", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Episodes");
 
                     b.Navigation("Histories");
@@ -435,6 +507,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.User", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Histories");
 
                     b.Navigation("Wishlists");

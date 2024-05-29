@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AudioAppDbContext))]
-    [Migration("20240423174126_addNameToUserTable")]
-    partial class addNameToUserTable
+    [Migration("20240529040946_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,11 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("State")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
                     b.HasKey("Id");
 
                     b.HasIndex("EpisodeId")
@@ -62,7 +67,8 @@ namespace Persistence.Migrations
                             Duration = 0L,
                             EpisodeId = 1L,
                             IsDeleted = false,
-                            Link = "123"
+                            Link = "123",
+                            State = 0
                         },
                         new
                         {
@@ -70,7 +76,8 @@ namespace Persistence.Migrations
                             Duration = 0L,
                             EpisodeId = 2L,
                             IsDeleted = false,
-                            Link = "456"
+                            Link = "456",
+                            State = 0
                         });
                 });
 
@@ -176,7 +183,7 @@ namespace Persistence.Migrations
                             Id = 1L,
                             CreatedById = 1L,
                             CreatedByName = "System",
-                            CreatedDateTime = new DateTime(2024, 4, 23, 17, 41, 26, 98, DateTimeKind.Utc).AddTicks(9718),
+                            CreatedDateTime = new DateTime(2024, 5, 29, 4, 9, 46, 405, DateTimeKind.Utc).AddTicks(4370),
                             IsDeleted = false,
                             OrderNumber = 1,
                             StoryId = 1L
@@ -186,7 +193,7 @@ namespace Persistence.Migrations
                             Id = 2L,
                             CreatedById = 1L,
                             CreatedByName = "System",
-                            CreatedDateTime = new DateTime(2024, 4, 23, 17, 41, 26, 98, DateTimeKind.Utc).AddTicks(9725),
+                            CreatedDateTime = new DateTime(2024, 5, 29, 4, 9, 46, 405, DateTimeKind.Utc).AddTicks(4370),
                             IsDeleted = false,
                             OrderNumber = 2,
                             StoryId = 1L
@@ -289,7 +296,7 @@ namespace Persistence.Migrations
                             Author = "Bí ẩn radio",
                             CreatedById = 1L,
                             CreatedByName = "System",
-                            CreatedDateTime = new DateTime(2024, 4, 23, 17, 41, 26, 101, DateTimeKind.Utc).AddTicks(688),
+                            CreatedDateTime = new DateTime(2024, 5, 29, 4, 9, 46, 406, DateTimeKind.Utc).AddTicks(7950),
                             Description = "Câu chuyện về một làng chài nhỏ ở Nha Trang, nơi ẩn chứa những ký ức kinh hoàng, những khoánh khắc rùng rợn về loài ma đáng sợ: Ma da, trên những chuyến hải trình dài ngoài biển khơi....\n\nMời các bạn đón nghe chuyện ma kinh dị  (phần 1/2) của tác giả Nguyễn Quốc Huy (Huy Rùi) qua giọng đọc Tả Từ. Các bạn nên nghe bằng tai nghe để có trải nghiệm tốt nhất. Nếu cảm thấy thú vị, các bạn có thể sử dụng tính năng SuperThank (\"Cảm ơn\"), nút ở dưới các video để tặng cho MC một cốc cafe. Trân trọng!",
                             IsBook = false,
                             IsDeleted = false,
@@ -335,43 +342,6 @@ namespace Persistence.Migrations
                             IsDeleted = false,
                             Name = "Hài"
                         });
-                });
-
-            modelBuilder.Entity("Domain.Entities.StoryTag", b =>
-                {
-                    b.Property<long>("StoryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TagId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("StoryId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("StoryTag", "public");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Tag", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tag", "public");
                 });
 
             modelBuilder.Entity("Domain.Entities.Wishlist", b =>
@@ -497,25 +467,6 @@ namespace Persistence.Migrations
                     b.Navigation("StoryCategory");
                 });
 
-            modelBuilder.Entity("Domain.Entities.StoryTag", b =>
-                {
-                    b.HasOne("Domain.Entities.Story", "Story")
-                        .WithMany("StoryTags")
-                        .HasForeignKey("StoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Tag", "Tag")
-                        .WithMany("StoryTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Story");
-
-                    b.Navigation("Tag");
-                });
-
             modelBuilder.Entity("Domain.Entities.Wishlist", b =>
                 {
                     b.HasOne("Domain.User", "User")
@@ -549,19 +500,12 @@ namespace Persistence.Migrations
 
                     b.Navigation("Histories");
 
-                    b.Navigation("StoryTags");
-
                     b.Navigation("Wishlists");
                 });
 
             modelBuilder.Entity("Domain.Entities.StoryCategory", b =>
                 {
                     b.Navigation("Stories");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Tag", b =>
-                {
-                    b.Navigation("StoryTags");
                 });
 
             modelBuilder.Entity("Domain.User", b =>

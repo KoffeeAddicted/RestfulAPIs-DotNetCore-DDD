@@ -174,18 +174,50 @@ jobs:
           DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/audio-app:${{ github.sha }}
         run: |
           sshpass -p $VPS_PASSWORD ssh -o StrictHostKeyChecking=no -p $VPS_PORT $VPS_USERNAME@$VPS_IP <<EOF
-            docker images tanphatvo/* --format "{{.Repository}}:{{.Tag}}" | while read -r image; do
-              echo "Removing image: \$image"
-              docker rmi -f "\$image"
-            done
+            # Clean up previous containers and images
+            docker ps -aq | xargs docker rm -f || true
+            docker images -q | xargs docker rmi -f || true
             
+            # Pull the new Docker image
             docker pull $DOCKER_IMAGE
             
-            docker stop audio-app || true
+            # Run the new container with Nginx and Let's Encrypt
+            docker run -dp 3000:8080 \
+              --name audio-app \
+              --mount type=volume,source=letsencrypt,target=/etc/letsencrypt \
+              $DOCKER_IMAGE
             
-            docker rm audio-app || true
+            # Install and configure Nginx
+            docker exec audio-app apt-get update
+            docker exec audio-app apt-get install -y nginx
+            docker exec audio-app rm -rf /etc/nginx/sites-available/*
+            docker exec audio-app rm -rf /etc/nginx/sites-enabled/*
             
-            docker run -dp 3000:8080 --name audio-app $DOCKER_IMAGE
+            # Configure Nginx for your application
+            docker exec audio-app sh -c "echo 'server {
+              listen 80;
+              listen 443 ssl;
+              ssl_certificate /etc/letsencrypt/live/default/fullchain.pem;
+              ssl_certificate_key /etc/letsencrypt/live/default/privkey.pem;
+              location / {
+                proxy_pass http://localhost:8080;
+                proxy_set_header Host \$host;
+                proxy_set_header X-Real-IP \$remote_addr;
+                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto \$scheme;
+              }
+            }' > /etc/nginx/sites-available/default.conf"
+            
+            docker exec audio-app ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/
+            
+            # Restart Nginx
+            docker exec audio-app service nginx restart
+            
+            # Renew SSL certificates automatically
+            docker exec audio-app certbot renew --dry-run
+            
+            # Add a cron job to renew SSL certificates daily
+            docker exec audio-app crontab -l | { cat; echo "0 0 * * * certbot renew --quiet"; } | docker exec -i audio-app crontab -
           EOF
   notification-success:
     runs-on: ubuntu-latest

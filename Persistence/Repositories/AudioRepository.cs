@@ -16,7 +16,7 @@ public class AudioRepository : IAudioRepository
     public async Task<IEnumerable<Audio>> GetTop10YoutubeVideoAsync()
     {
         return await _genericRepository.Table
-            .Where(a => a.Link.Contains("www.youtube.com"))
+            .Where(a => a.Link.Contains("www.youtube.com") || a.Link.Contains("youtu.be"))
             .OrderByDescending(a => a.Id)
             .Take(10).ToListAsync();
     }

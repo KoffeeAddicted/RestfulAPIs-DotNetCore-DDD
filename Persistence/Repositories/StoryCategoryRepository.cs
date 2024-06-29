@@ -19,4 +19,7 @@ public class StoryCategoryRepository : IStoryCategoryRepository
             .Where(s => !s.IsDeleted)
             .ToListAsync();
     }
+
+    public async Task<StoryCategory> GetCategoryByName(string name)
+        => await _genericRepository.Table.FirstOrDefaultAsync(st => st.Name == name);
 }

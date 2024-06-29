@@ -66,6 +66,14 @@ public class StoryRepository : IStoryRepository
     {
         _genericRepository.Insert(story);
     }
+    
+    public async Task Insert(List<Story> stories)
+    {
+        foreach (var story in stories)
+        {
+            await _genericRepository.InsertAsync(story);
+        }
+    }
 
     public void Update(Story story)
     {

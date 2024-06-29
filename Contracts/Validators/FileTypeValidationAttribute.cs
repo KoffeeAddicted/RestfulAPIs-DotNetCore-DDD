@@ -73,21 +73,12 @@ public class FileTypeValidationAttribute : ValidationAttribute
 
     private bool IsYouTubeLink(string url)
     {
-        // Example: https://www.youtube.com/watch?v=dQw4w9WgXcQ
         var uri = new Uri(url);
 
-        if (uri.Host.ToLowerInvariant() != "www.youtube.com")
+        if (uri.Host.ToLowerInvariant() != "www.youtube.com" && uri.Host.ToLowerInvariant() != "youtu.be")
             return false;
 
-        if (!uri.AbsolutePath.StartsWith("/watch", StringComparison.OrdinalIgnoreCase))
-            return false;
-
-        if (string.IsNullOrEmpty(uri.Query))
-            return false;
-
-        // Check if the query contains the video ID parameter 'v'
-        var queryParameters = System.Web.HttpUtility.ParseQueryString(uri.Query);
-        return !string.IsNullOrEmpty(queryParameters["v"]);
+        return true;
     }
 
     private bool IsUriAndEndsWithExtension(string url, params string[] extensions)

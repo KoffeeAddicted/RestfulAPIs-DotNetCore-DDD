@@ -8,6 +8,7 @@ public interface IStoryRepository
     Task<IEnumerable<Story>> GetByFilter(String name, Int64 storyCategoryId, Boolean isBook, Boolean isStory);
     Task<Story> GetByIdAsync(Int64 id);
     void Insert(Story story);
+    Task Insert(List<Story> stories);
     void Update(Story story);
     void Delete(Story story);
 }

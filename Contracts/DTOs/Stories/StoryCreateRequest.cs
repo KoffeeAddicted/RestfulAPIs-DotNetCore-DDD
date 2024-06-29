@@ -26,5 +26,5 @@ public class StoryCreateRequest
     public String CreatedByName { get; set; }
     public DateTime CreatedTime { get; set; }
     [NonEmptyList(ErrorMessage = "Episodes list cannot be empty")]
-    public IEnumerable<EpisodeCreateRequest> Episodes { get; set; }
+    public List<EpisodeCreateRequest> Episodes { get; set; }
 }

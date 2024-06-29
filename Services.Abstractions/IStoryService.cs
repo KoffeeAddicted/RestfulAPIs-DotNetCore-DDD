@@ -8,5 +8,5 @@ public interface IStoryService
 {
     Task<StoriesFilteredResponse> GetStoriesAsync(ListFilter filter, Int64 storyCategoryId, Boolean isStory, Boolean isBook);
     Task<StoryResponseDTO> CreateStoryAsync(StoryCreateRequest storyCreateRequest);
-    Task<List<StoryCreateRequest>> GetStoryRequestListByExcel(IFormFile excelFile);
+    Task<IEnumerable<StoryResponseDTO>> UploadStoriesByExcel(IFormFile excelFile);
 }

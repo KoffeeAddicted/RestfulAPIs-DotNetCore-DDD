@@ -17,7 +17,7 @@ public class StoryCreateRequest
     public String Author { get; set; }
     public String Voice { get; set; }
     [Required]
-    public Int64 StoryCategoryId { get; set; }
+    public List<long> StoryCategoryId { get; set; }
     [Required]
     public Boolean IsBook { get; set; }
     [Required]

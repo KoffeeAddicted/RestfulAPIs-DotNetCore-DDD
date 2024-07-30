@@ -17,7 +17,7 @@ public class Story : AuditEntity<Int64>
     
     public Boolean IsStory { get; set; }
     
-    public Int64 StoryCategoryId { get; set; }
+    public IList<long> StoryCategoryId { get; set; }
     public virtual ICollection<Episode> Episodes { get; set; } = new HashSet<Episode>();
 
     public virtual ICollection<Wishlist> Wishlists { get; set; } =  new HashSet<Wishlist>();
@@ -25,6 +25,4 @@ public class Story : AuditEntity<Int64>
     public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
     public virtual ICollection<History> Histories { get; set; } = new HashSet<History>();
-    
-    public StoryCategory StoryCategory { get; set; }
 }

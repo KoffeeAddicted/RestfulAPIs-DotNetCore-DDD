@@ -30,7 +30,6 @@ public class StoryRepository : IStoryRepository
         IQueryable<Story> query = _genericRepository.Table
             .Include(s => s.Episodes.Where(e => !e.IsDeleted))
             .ThenInclude(e => e.Audio)
-            .Include(s => s.StoryCategory)
             .Where(s => !s.IsDeleted
                         && s.IsBook == isBook
                         && s.IsStory == isStory);
@@ -44,11 +43,6 @@ public class StoryRepository : IStoryRepository
                                      || s.Description.ToLower().Contains(lowercaseName)
                                      || s.Voice.ToLower().Contains(lowercaseName)
                                      || s.Author.ToLower().Contains(lowercaseName));
-        }
-
-        if (storyCategoryId != 0)
-        {
-            query = query.Where(s => s.StoryCategoryId == storyCategoryId);
         }
 
         return await query.ToListAsync();

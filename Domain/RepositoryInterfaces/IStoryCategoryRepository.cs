@@ -5,5 +5,5 @@ namespace Domain.RepositoryInterfaces;
 public interface IStoryCategoryRepository
 {
     Task<IEnumerable<StoryCategory>> GetAllAsync();
-    Task<StoryCategory> GetCategoryByName(string name);
+    Task<IEnumerable<StoryCategory>> GetCategoryByNames(IList<string> name);
 }

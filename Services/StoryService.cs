@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Amazon.Runtime.Internal.Transform;
 using AutoMapper;
 using Contracts;
 using Contracts.DTOs.Stories;
@@ -146,7 +147,7 @@ public class StoryService : IStoryService
                             Desription = worksheet.Cells[row, 5].Text,
                             IsBook = worksheet.Cells[row, 6].Text.Equals("Sách", StringComparison.OrdinalIgnoreCase),
                             IsStory = worksheet.Cells[row, 6].Text.Equals("Truyện", StringComparison.OrdinalIgnoreCase),
-                            StoryCategoryId = StoryCategoryParse(worksheet.Cells[row, 7].Text).Id,
+                            StoryCategoryId = await StoryCategoryParse(worksheet.Cells[row, 7].Text),
                             SourceDescription = worksheet.Cells[row, 9].Text,
                             Thumbnail = worksheet.Cells[row, 11].Text,
                             Episodes = new List<EpisodeCreateRequest>(),
@@ -197,8 +198,15 @@ public class StoryService : IStoryService
         return true;
     }
 
-    private async Task<StoryCategory> StoryCategoryParse(string name)
-        => await _repositoryManager.StoryCategoryRepository.GetCategoryByName(name);
+    private async Task<List<long>> StoryCategoryParse(string name)
+    {
+        List<string> listname = name.Split(", ").ToList();
+
+        IEnumerable<StoryCategory> storyCategories =
+            await _repositoryManager.StoryCategoryRepository.GetCategoryByNames(listname);
+
+        return storyCategories.Select(s => s.Id).ToList();
+    }
     
     
     private bool IsUriAndEndsWithExtension(string url, params string[] extensions)

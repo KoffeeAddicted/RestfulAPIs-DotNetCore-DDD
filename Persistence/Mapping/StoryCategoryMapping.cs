@@ -23,11 +23,6 @@ public class StoryCategoryMapping : EntityTypeConfiguration<StoryCategory>
         entity.Property(sc => sc.Name).IsRequired();
 
         entity.Property(sc => sc.IsDeleted).IsRequired().HasDefaultValue(false);
-
-        entity.HasMany(sc => sc.Stories)
-            .WithOne(s => s.StoryCategory)
-            .HasForeignKey(s => s.StoryCategoryId);
-        
         #endregion
         
         #region Seeding data

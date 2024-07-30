@@ -1,3 +1,4 @@
+using System.Collections;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,6 @@ public class StoryCategoryRepository : IStoryCategoryRepository
             .ToListAsync();
     }
 
-    public async Task<StoryCategory> GetCategoryByName(string name)
-        => await _genericRepository.Table.FirstOrDefaultAsync(st => st.Name == name);
+    public async Task<IEnumerable<StoryCategory>> GetCategoryByNames(IList<string> name)
+        => await _genericRepository.Table.Where(st => name.Contains(st.Name)).ToListAsync();
 }

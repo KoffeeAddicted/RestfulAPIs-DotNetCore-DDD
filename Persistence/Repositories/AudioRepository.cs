@@ -18,7 +18,7 @@ public class AudioRepository : IAudioRepository
         return await _genericRepository.Table
             .Where(a => a.Link.Contains("www.youtube.com") || a.Link.Contains("youtu.be"))
             .OrderByDescending(a => a.Id)
-            .Take(10).ToListAsync();
+            .Take(1).ToListAsync();
     }
 
     public void UpdateAsync(List<Audio> audios)

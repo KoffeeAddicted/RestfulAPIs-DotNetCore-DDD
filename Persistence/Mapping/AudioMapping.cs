@@ -37,23 +37,7 @@ public class AudioMapping : EntityTypeConfiguration<Audio>
         #endregion
         
         #region Seeding data
-        entity.HasData(
-            new List<Audio>()
-            {
-                new Audio()
-                {
-                    Id = 1,
-                    Link = "123",
-                    EpisodeId = 1
-                },
-                new Audio()
-                {
-                    Id = 2,
-                    Link = "456",
-                    EpisodeId = 2
-                },
-            }
-        );
+        
         #endregion
 
         base.Configure(entity);

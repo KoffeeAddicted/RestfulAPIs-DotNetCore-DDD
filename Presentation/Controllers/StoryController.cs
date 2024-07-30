@@ -23,7 +23,7 @@ public class StoryController : ControllerBase
     [HttpGet]
     [Route(nameof(GetStories))]
     [Produces(typeof(ApiResponse<IEnumerable<StoriesFilteredResponse>>))]
-    public async Task<IActionResult> GetStories([FromQuery] ListFilter filter, [FromQuery][Required] Int64 storyCategoryId, [FromQuery][Required] Boolean isBook, [FromQuery][Required] Boolean isStory)
+    public async Task<IActionResult> GetStories([FromQuery] ListFilter filter, [FromQuery][Required] IList<long> storyCategoryId, [FromQuery][Required] Boolean isBook, [FromQuery][Required] Boolean isStory)
     {
         try
         {

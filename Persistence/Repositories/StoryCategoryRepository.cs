@@ -23,4 +23,7 @@ public class StoryCategoryRepository : IStoryCategoryRepository
 
     public async Task<IEnumerable<StoryCategory>> GetCategoryByNames(IList<string> name)
         => await _genericRepository.Table.Where(st => name.Contains(st.Name)).ToListAsync();
+    
+    public async Task<IEnumerable<StoryCategory>> GetCategoryByIds(IList<long> ids)
+        => await _genericRepository.Table.Where(st => ids.Contains(st.Id)).ToListAsync();
 }

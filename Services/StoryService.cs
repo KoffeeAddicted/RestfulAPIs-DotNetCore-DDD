@@ -31,7 +31,7 @@ public class StoryService : IStoryService
         _appSettings = appSettings.Value;
     }
 
-    public async Task<StoriesFilteredResponse> GetStoriesAsync(ListFilter filter, Int64 storyCategoryId, Boolean isStory, Boolean isBook)
+    public async Task<StoriesFilteredResponse> GetStoriesAsync(ListFilter filter, IList<long> storyCategoryId, Boolean isStory, Boolean isBook)
     {
         IEnumerable<Story> stories = await _repositoryManager.StoryRepository.GetByFilter(filter.SearchName, storyCategoryId, isBook, isStory);
 
@@ -54,7 +54,7 @@ public class StoryService : IStoryService
 
         IEnumerable<StoryResponseDTO> storiesResponse =
             _mapper.Map<IEnumerable<Story>, IEnumerable<StoryResponseDTO>>(stories);
-
+        
         StoriesFilteredResponse response = new StoriesFilteredResponse()
         {
             StoryResponseDtos = storiesResponse,
@@ -137,6 +137,9 @@ public class StoryService : IStoryService
                 {
                     var titleCell = worksheet.Cells[row, 1].Text;
 
+                    if (titleCell.Equals("End", StringComparison.OrdinalIgnoreCase))
+                        break;
+                    
                     if (!string.IsNullOrEmpty(titleCell))
                     {
                         currentStory = new StoryCreateRequest

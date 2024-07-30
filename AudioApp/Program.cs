@@ -57,7 +57,7 @@ builder.Services.AddQuartz(q =>
     q.AddTrigger(opts => opts
         .ForJob(jobKey)
         .WithIdentity("ConvertYoutubeAndUploadS3Job-trigger")
-        .WithCronSchedule("0/50 * * * * ?"));
+        .WithCronSchedule("0/5 * * * * ?"));
 
 });
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);

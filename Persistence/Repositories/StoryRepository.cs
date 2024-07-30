@@ -25,7 +25,7 @@ public class StoryRepository : IStoryRepository
             .ToListAsync();
     }
     
-    public async Task<IEnumerable<Story>> GetByFilter(String name, Int64 storyCategoryId, Boolean isBook, Boolean isStory)
+    public async Task<IEnumerable<Story>> GetByFilter(String name, IList<long> storyCategoryId, Boolean isBook, Boolean isStory)
     {
         IQueryable<Story> query = _genericRepository.Table
             .Include(s => s.Episodes.Where(e => !e.IsDeleted))
@@ -44,6 +44,9 @@ public class StoryRepository : IStoryRepository
                                      || s.Voice.ToLower().Contains(lowercaseName)
                                      || s.Author.ToLower().Contains(lowercaseName));
         }
+
+        if (storyCategoryId.Any())
+            query = query.Where(s => s.StoryCategoryId.Any(sc => storyCategoryId.Contains(sc)));
 
         return await query.ToListAsync();
     }

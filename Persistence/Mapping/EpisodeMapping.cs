@@ -44,27 +44,7 @@ public class EpisodeMapping : EntityTypeConfiguration<Episode>
         #endregion
         
         #region Seeding data
-        entity.HasData(
-            new List<Episode>()
-            {
-                new Episode()
-                {
-                    Id = 1,
-                    OrderNumber = 1,
-                    CreatedById = 1,
-                    CreatedByName = "System",
-                    StoryId = 1,
-                },
-                new Episode()
-                {
-                    Id = 2,
-                    OrderNumber = 2,
-                    CreatedById = 1,
-                    CreatedByName = "System",
-                    StoryId = 1
-                }
-            }
-        );
+        
         #endregion
 
         base.Configure(entity);

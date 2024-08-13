@@ -17,6 +17,7 @@ public class MappingProfile : Profile
     {
         #region Story
         CreateMap<Story, StoryResponseDTO>();
+        CreateMap<Story, StoryResponeAuthorDTO>();
         CreateMap<Episode, EpisodeResponseDTO>()
             .ForMember(dest => dest.Link, opt => opt.MapFrom(src => src.Audio.Link))
             .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.Audio.Duration));

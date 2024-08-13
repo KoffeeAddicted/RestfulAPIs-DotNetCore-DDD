@@ -7,6 +7,9 @@ namespace Services.Absractions;
 public interface IStoryService
 {
     Task<StoriesFilteredResponse> GetStoriesAsync(ListFilter filter, IList<long> storyCategoryId, Boolean isStory, Boolean isBook);
+
+    Task<IEnumerable<StoryResponeAuthorDTO>> GetStoryAuthor();
+
     Task<StoryResponseDTO> CreateStoryAsync(StoryCreateRequest storyCreateRequest);
     Task<IEnumerable<StoryResponseDTO>> UploadStoriesByExcel(IFormFile excelFile);
 }

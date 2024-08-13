@@ -15,3 +15,8 @@ public class StoryResponseDTO
     public IList<StoryCategoryResponseDTO> StoryCategory { get; set; }
     public IEnumerable<EpisodeResponseDTO> Episodes { get; set; }
 }
+
+public class StoryResponeAuthorDTO
+{
+    public String Author { get; set; }
+}

@@ -5,6 +5,8 @@ namespace Domain.RepositoryInterfaces;
 public interface IStoryRepository
 {
     Task<IEnumerable<Story>> GetAllAsync();
+
+    Task<IEnumerable<Story>> getAuthorAudioVideoAsync();
     Task<IEnumerable<Story>> GetByFilter(String name, IList<long> storyCategoryId, Boolean isBook, Boolean isStory);
     Task<Story> GetByIdAsync(Int64 id);
     void Insert(Story story);

@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using Amazon.Runtime.Internal.Transform;
+using Amazon.S3.Model;
 using AutoMapper;
 using Contracts;
 using Contracts.DTOs.Stories;
+using Contracts.DTOs.Wishlist;
 using Contracts.Helpers;
 using Domain;
 using Domain.Entities;
@@ -64,6 +66,16 @@ public class StoryService : IStoryService
         };
 
         return response;
+    }
+
+    public async Task<IEnumerable<StoryResponeAuthorDTO>> GetStoryAuthor()
+    {
+        IEnumerable <Story> stories= await _repositoryManager.StoryRepository.getAuthorAudioVideoAsync();
+
+        IEnumerable<StoryResponeAuthorDTO> storiesResponse =
+        _mapper.Map< IEnumerable<Story>, IEnumerable< StoryResponeAuthorDTO >> (stories);
+
+        return storiesResponse;
     }
 
     public async Task<StoryResponseDTO> CreateStoryAsync(StoryCreateRequest storyCreateRequest)

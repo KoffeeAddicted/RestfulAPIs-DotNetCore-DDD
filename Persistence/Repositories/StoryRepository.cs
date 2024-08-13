@@ -1,5 +1,6 @@
 using Contracts;
 using Contracts.Helpers;
+using Domain;
 using Domain.Entities;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +51,14 @@ public class StoryRepository : IStoryRepository
 
         return await query.ToListAsync();
     }
+
+    public async Task<IEnumerable<Story>> getAuthorAudioVideoAsync()
+    {
+        return await _genericRepository.Table
+            .GroupBy(x => x.Author)
+            .Select(g => g.OrderByDescending(x => x.CreatedDateTime).First()).ToListAsync();
+    }
+
 
 
 

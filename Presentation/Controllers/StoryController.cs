@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Contracts;
 using Contracts.DTOs.Stories;
 using Domain.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
@@ -44,7 +46,32 @@ public class StoryController : ControllerBase
             throw e;
         }
     }
-    
+
+    [HttpGet]
+    [Route(nameof(GetAuthorStories))]
+    [Produces(typeof(ApiResponse<IEnumerable<StoryResponeAuthorDTO>>))]
+    public async Task<IActionResult> GetAuthorStories()
+    {
+        try
+        {
+            IEnumerable <StoryResponeAuthorDTO> storyResponse = await _serviceManager.StoryService.GetStoryAuthor();
+
+            ApiResponse<IEnumerable<StoryResponeAuthorDTO>> response = new ApiResponse<IEnumerable<StoryResponeAuthorDTO>>()
+            {
+                Success = true,
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Success",
+                Data = storyResponse
+            };
+
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+    }
+
     [HttpPost]
     [Route(nameof(CreateNewStory))]
     [Produces(typeof(ApiResponse<IEnumerable<StoryResponseDTO>>))]

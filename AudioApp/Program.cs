@@ -1,4 +1,5 @@
 using Contracts;
+using Contracts.Helpers;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -29,7 +30,13 @@ builder.Services.Configure<AppSettings>(appConfigSection);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "AudioApp API", Version = "v1" });
+
+    // Add the custom header operation filter
+    options.OperationFilter<AddHeaderSignatureFilter>();
+});
 builder.Services.AddControllers(
     options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 builder.Services.AddAutoMapper(typeof(MappingProfile));

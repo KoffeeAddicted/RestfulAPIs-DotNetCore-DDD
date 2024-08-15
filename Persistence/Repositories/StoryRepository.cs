@@ -52,13 +52,23 @@ public class StoryRepository : IStoryRepository
         return await query.ToListAsync();
     }
 
-    public async Task<IEnumerable<Story>> getAuthorAudioVideoAsync()
+    public async Task<IEnumerable<Story>> getAuthorAudioVideoAsync(Boolean isBook, Boolean isStory)
     {
         return await _genericRepository.Table
+            .Where(s => s.IsBook == isBook
+                        && s.IsStory == isStory)
             .GroupBy(x => x.Author)
             .Select(g => g.OrderByDescending(x => x.CreatedDateTime).First()).ToListAsync();
     }
 
+    public async Task<IEnumerable<Story>> getVoiceAudioVideoAsync(Boolean isBook, Boolean isStory)
+    {
+        return await _genericRepository.Table
+            .Where(s => s.IsBook == isBook
+                        && s.IsStory == isStory)
+            .GroupBy(x => x.Voice)
+            .Select(g => g.OrderByDescending(x => x.CreatedDateTime).First()).ToListAsync();
+    }
 
 
 

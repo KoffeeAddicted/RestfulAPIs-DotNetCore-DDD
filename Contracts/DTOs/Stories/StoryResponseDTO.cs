@@ -20,3 +20,8 @@ public class StoryResponeAuthorDTO
 {
     public String Author { get; set; }
 }
+
+public class StoryResponeVoiceDTO
+{
+    public String Voice { get; set; }
+}

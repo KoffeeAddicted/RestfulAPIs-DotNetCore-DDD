@@ -50,11 +50,11 @@ public class StoryController : ControllerBase
     [HttpGet]
     [Route(nameof(GetAuthorStories))]
     [Produces(typeof(ApiResponse<IEnumerable<StoryResponeAuthorDTO>>))]
-    public async Task<IActionResult> GetAuthorStories()
+    public async Task<IActionResult> GetAuthorStories([FromQuery][Required] Boolean isBook, [FromQuery][Required] Boolean isStory)
     {
         try
         {
-            IEnumerable <StoryResponeAuthorDTO> storyResponse = await _serviceManager.StoryService.GetStoryAuthor();
+            IEnumerable <StoryResponeAuthorDTO> storyResponse = await _serviceManager.StoryService.GetStoryAuthor(isBook, isStory);
 
             ApiResponse<IEnumerable<StoryResponeAuthorDTO>> response = new ApiResponse<IEnumerable<StoryResponeAuthorDTO>>()
             {
@@ -71,6 +71,32 @@ public class StoryController : ControllerBase
             throw e;
         }
     }
+
+    [HttpGet]
+    [Route(nameof(GetVoiceStories))]
+    [Produces(typeof(ApiResponse<IEnumerable<StoryResponeVoiceDTO>>))]
+    public async Task<IActionResult> GetVoiceStories([FromQuery][Required] Boolean isBook, [FromQuery][Required] Boolean isStory)
+    {
+        try
+        {
+            IEnumerable<StoryResponeVoiceDTO> storyResponse = await _serviceManager.StoryService.GetVoiceAuthor(isBook, isStory);
+
+            ApiResponse<IEnumerable<StoryResponeVoiceDTO>> response = new ApiResponse<IEnumerable<StoryResponeVoiceDTO>>()
+            {
+                Success = true,
+                StatusCode = StatusCodes.Status200OK,
+                Message = "Success",
+                Data = storyResponse
+            };
+
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+    }
+
 
     [HttpPost]
     [Route(nameof(CreateNewStory))]

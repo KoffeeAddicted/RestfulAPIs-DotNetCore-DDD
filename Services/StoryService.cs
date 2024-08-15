@@ -68,12 +68,22 @@ public class StoryService : IStoryService
         return response;
     }
 
-    public async Task<IEnumerable<StoryResponeAuthorDTO>> GetStoryAuthor()
+    public async Task<IEnumerable<StoryResponeAuthorDTO>> GetStoryAuthor(Boolean isBook, Boolean isStory)
     {
-        IEnumerable <Story> stories= await _repositoryManager.StoryRepository.getAuthorAudioVideoAsync();
+        IEnumerable <Story> stories= await _repositoryManager.StoryRepository.getAuthorAudioVideoAsync(isBook, isStory);
 
         IEnumerable<StoryResponeAuthorDTO> storiesResponse =
         _mapper.Map< IEnumerable<Story>, IEnumerable< StoryResponeAuthorDTO >> (stories);
+
+        return storiesResponse;
+    }
+
+    public async Task<IEnumerable<StoryResponeVoiceDTO>> GetVoiceAuthor(Boolean isBook, Boolean isStory)
+    {
+        IEnumerable<Story> stories = await _repositoryManager.StoryRepository.getVoiceAudioVideoAsync(isBook, isStory);
+
+        IEnumerable<StoryResponeVoiceDTO> storiesResponse =
+        _mapper.Map<IEnumerable<Story>, IEnumerable<StoryResponeVoiceDTO>>(stories);
 
         return storiesResponse;
     }

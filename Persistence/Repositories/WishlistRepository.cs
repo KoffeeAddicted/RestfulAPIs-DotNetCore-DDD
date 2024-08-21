@@ -25,6 +25,8 @@ public class WishlistRepository : IWishlistRepository
     {
         return await _genericRepository.Table
             .Include(s => s.Story)
+            .ThenInclude(st => st.Episodes)
+            .ThenInclude(e => e.Audio)
             .Where(s => s.ProviderToken == ProviderToken && s.StoryId == StoryId )
             .FirstOrDefaultAsync();
     }

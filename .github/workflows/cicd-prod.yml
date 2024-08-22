@@ -118,6 +118,7 @@ jobs:
           files: "${{ github.workspace }}/${{ env.WORKING_DIRECTORY }}/appsettings.Prod.json"
         env:
           AppSettings.SecretKey: ${{ secrets.SIGNATURE_KEY }}
+          AppSettings.AdminToken: ${{ secrets.ADMIN_KEY }}
           
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1

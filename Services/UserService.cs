@@ -73,5 +73,15 @@ namespace Services
 
             return response;
         }
+        
+        public async Task<string> Login(UserLoginRequest request)
+        {
+            User? user = await _repositoryManager.UserRepository.GetUser(request.Email, request.Password);
+
+            if (user is null)
+                throw new UnauthorizedAccessException("User is not exists");
+
+            return _appSettings.AdminToken;
+        }
     }
 }

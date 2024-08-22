@@ -27,7 +27,16 @@ public class SignatureValidationMiddleware
         {
             // Get the secret key from appsettings
             string secretKey = _configuration["AppSettings:SecretKey"];
+            string requestPath = context.Request.Path;
 
+            if ((requestPath.Contains("CreateNewStory", StringComparison.OrdinalIgnoreCase) ||
+                 requestPath.Contains("UploadStoriesFromExcel", StringComparison.OrdinalIgnoreCase)) &&
+                signature != _configuration["AppSettings:AdminToken"])
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                await context.Response.WriteAsync("Unauthorized: Invalid signature");
+            }
+            
             // Check if the signature matches the secret key
             if (signature == secretKey)
             {

@@ -20,6 +20,13 @@ public class UserRepository : IUserRepository
             .Where(s => s.ProviderToken == ProviderToken)
             .FirstOrDefaultAsync();
     }
+    
+    public async Task<User?> GetUser(string email, string password)
+    {
+        return await _genericRepository.Table
+            .Where(s => s.Email == email && s.Password == password && s.IsAdmin)
+            .FirstOrDefaultAsync();
+    }
 
     public void Insert(User user)
     {

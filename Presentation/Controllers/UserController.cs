@@ -64,5 +64,20 @@ public class UserController : ControllerBase
         return Ok(response);
     }
 
-
+    [HttpPost]
+    [Route("Login")]
+    [Produces(typeof(ApiResponse<UserResponseDTO?>))]
+    public async Task<IActionResult> Login([FromBody]  UserLoginRequest request)
+    {
+        string token = await _serviceManager.UserService.Login(request);
+        
+        ApiResponse<string> response = new()
+        {
+            Success = true,
+            StatusCode = StatusCodes.Status200OK,
+            Message = "Success",
+            Data = token
+        };
+        return Ok(response);
+    }
 }

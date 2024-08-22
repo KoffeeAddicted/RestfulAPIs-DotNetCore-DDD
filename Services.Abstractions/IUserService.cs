@@ -14,5 +14,6 @@ namespace Services.Absractions
 
         Task<UserResponseDTO?> GetUserAsync(String ProviderToken);
         Task<UserResponseDTO> CreateUserAsync(UserCreateCustomerAuthen userCreateCustomerAuthen);
+        Task<string> Login(UserLoginRequest request);
     }
 }

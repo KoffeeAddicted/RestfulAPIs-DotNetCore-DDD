@@ -10,4 +10,5 @@ public interface IRepositoryManager
     IHistoryRepository HistoryRepository { get; }
     ICommentRepository CommentRepository { get; }
     IAudioRepository AudioRepository { get; }
+    IBannerRepository BannerRepository { get; }
 }

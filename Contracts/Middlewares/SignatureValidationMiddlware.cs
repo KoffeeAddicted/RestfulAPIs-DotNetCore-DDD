@@ -30,7 +30,8 @@ public class SignatureValidationMiddleware
             string requestPath = context.Request.Path;
 
             if ((requestPath.Contains("CreateNewStory", StringComparison.OrdinalIgnoreCase) ||
-                 requestPath.Contains("UploadStoriesFromExcel", StringComparison.OrdinalIgnoreCase)) &&
+                 requestPath.Contains("UploadStoriesFromExcel", StringComparison.OrdinalIgnoreCase) ||
+                 requestPath.Contains("upload-banner", StringComparison.OrdinalIgnoreCase)) &&
                 signature != _configuration["AppSettings:AdminToken"])
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;

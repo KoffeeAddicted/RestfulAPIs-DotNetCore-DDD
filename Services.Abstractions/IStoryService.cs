@@ -1,5 +1,6 @@
 using Contracts;
 using Contracts.DTOs.Stories;
+using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 
 namespace Services.Absractions;
@@ -14,4 +15,6 @@ public interface IStoryService
 
     Task<StoryResponseDTO> CreateStoryAsync(StoryCreateRequest storyCreateRequest);
     Task<IEnumerable<StoryResponseDTO>> UploadStoriesByExcel(IFormFile excelFile);
+    Task<Banner?> GetLatestBanner();
+    void AddBanner(IFormFile image);
 }

@@ -141,6 +141,29 @@ public class StoryService : IStoryService
             throw e;
         }
     }
+
+    public async Task<Banner?> GetLatestBanner()
+    {
+        return await _repositoryManager.BannerRepository.GetLatest();
+    }
+
+    public void AddBanner(IFormFile image)
+    {
+        using (var ms = new MemoryStream())
+        {
+            image.CopyToAsync(ms);
+            var imageBytes = ms.ToArray();
+            var base64String = Convert.ToBase64String(imageBytes);
+
+            var imageEntity = new Banner()
+            {
+                Name = image.FileName,
+                Content = base64String
+            };
+
+            _repositoryManager.BannerRepository.Add(imageEntity);
+        }
+    }
     
     private async Task<List<StoryCreateRequest>> ReadStoriesFromExcel(IFormFile excelFile)
     {

@@ -136,4 +136,49 @@ public class StoryController : ControllerBase
             throw e;
         }
     }
+    
+    [HttpPost("upload-banner")]
+    public async Task<IActionResult> UploadImage(IFormFile image)
+    {
+        if (image == null || image.Length == 0)
+            return BadRequest("No image provided.");
+
+        // Validate the file type
+        var permittedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+        var extension = Path.GetExtension(image.FileName).ToLowerInvariant();
+
+        if (string.IsNullOrEmpty(extension) || !permittedExtensions.Contains(extension))
+        {
+            return BadRequest("Invalid file type. Only .jpg, .jpeg, .png, and .gif files are allowed.");
+        }
+
+        // Validate MIME type
+        if (!image.ContentType.StartsWith("image/"))
+        {
+            return BadRequest("Invalid content type. Only image files are allowed.");
+        }
+
+        _serviceManager.StoryService.AddBanner(image);
+        
+        ApiResponse<string> response = new ApiResponse<string>
+        {
+            Success = true,
+            StatusCode = StatusCodes.Status200OK,
+            Message = "Success",
+            Data = "Upload banner success"
+        };
+
+        return Ok(response);
+    }
+    
+    [HttpGet("get-latest-banner")]
+    public async Task<IActionResult> GetImage()
+    {
+        var imageEntity = await _serviceManager.StoryService.GetLatestBanner();
+        if (imageEntity == null)
+            throw new Exception("Banner not found");
+
+        var imageBytes = Convert.FromBase64String(imageEntity.Content);
+        return File(imageBytes, "image/jpeg");
+    }
 }
